@@ -4,3 +4,4 @@ from user import models
 
 admin.site.register(models.ClubTypes)
 admin.site.register(models.Clubs)
+admin.site.register(models.RelInterestClub)

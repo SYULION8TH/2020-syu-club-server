@@ -215,7 +215,7 @@ class Posts(models.Model):
     post_content = models.CharField(max_length=3000)
     post_introduce = models.CharField(max_length=200, blank=True, null=True)
     post_img_url = models.CharField(max_length=1500, blank=True, null=True)
-    user_id = models.IntegerField(blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.IntegerField(default=0)  # This field type is a guess.
