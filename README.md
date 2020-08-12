@@ -26,6 +26,11 @@ https://drive.google.com/drive/folders/1SVlbKT-klrC5g_k3ljm5sYO2dVz33sVd?usp=sha
 
 7. 개발 시작합시다.
 
+## 소셜 로그인 기능 test 하고 싶으신 분!
+1. 서버를 킨 후 localhost:8000/accounts/kakao/login or /accounts/google/login (반드시 localhost여야함!)
+2. 각 로그인 페이지에서 가입을 진행한다.
+3. localhost:8000/admin 에서 유저 정보가 등록되어 있는지 확인한다. (user or socialaccount)
+
 동아리 앱 폴더:
 
 ### 동아리 - 하늘
