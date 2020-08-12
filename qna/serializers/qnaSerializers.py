@@ -4,4 +4,4 @@ from rest_framework import serializers
 class QnaSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubsQna
-        field = '__all__'
+        fields = '__all__'
