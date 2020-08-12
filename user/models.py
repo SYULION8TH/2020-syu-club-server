@@ -255,7 +255,7 @@ class PostsViews(models.Model):
 
 class QnaReplies(models.Model):
     qna_reply_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE, blank=True, null=True)
     question = models.ForeignKey(ClubsQna, models.DO_NOTHING, blank=True, null=True)
     parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True)
     qna_reply_content = models.CharField(max_length=500, blank=True, null=True)
@@ -338,7 +338,18 @@ class UsersAdditionalInfo(models.Model):
 
     class Meta:
         db_table = 'users_additional_info'
-    
+
+
+class PostsLike(models.Model):
+    posts_like_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    posts = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+
 @receiver(signals.post_save, sender=SocialAccount)
 def create_addtional_user_info(sender, instance, created, **kwargs):
     if created:
