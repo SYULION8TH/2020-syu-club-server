@@ -6,6 +6,26 @@
 
 인원: 박기홍, 정하늘, 이지수, 박미란, 위보람
 
+## 세팅 방법
+
+1. git clone을 합니다.
+`git clone https://github.com/SYULION8TH/2020-syu-club-server.git`
+
+2. 이후 멋사 구글 드라이브에서 env.py 와 mysql.cnf를 다운 받습니다.
+https://drive.google.com/drive/folders/1SVlbKT-klrC5g_k3ljm5sYO2dVz33sVd?usp=sharing
+
+3. 2020-syu-club-server/secure 이와 같이 2020-syu-club-server폴더 안에 secure폴더를 생성 후 위 두 파일을 넣습니다. 
+
+4. 2020-syu-club-server폴더가 있는 위치에서 가상환경(`python -m venv venv`)을 생성해 줍니다.
+
+5. 가상환경 실행 후 requirements.txt가 있는 위치에서 `pip install -r requirements.txt`명령어를 입력합니다.
+
+6. `python manage.py runserver` 이후 `127.0.0.1:8000/admin`으로 들어가서 제대로 되는지 확인합니다.
+> - id : dev
+> - password : 12345
+
+7. 개발 시작합시다.
+
 동아리 앱 폴더:
 
 ### 동아리 - 하늘
@@ -15,7 +35,6 @@
 - 관심 동아리 목록
 - 관심 동아리 설정
 - 관심 동아리 삭제
-- 동아리 별 회원 목록
 
 ### QnA - 이지수
 
@@ -28,6 +47,7 @@
 - 게시물 목록 
 - 게시물 상세
 - 게시물 좋아요 기능 N:M
+- 조회수 측정
 - 인기 게시물(?)
 - 게시물 댓글 / 게시물 대댓글대댓글
 
