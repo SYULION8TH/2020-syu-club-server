@@ -6,10 +6,6 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-from django.contrib.auth.models import User
-from django.db.models import signals
-from django.dispatch import receiver
-from allauth.socialaccount.models import SocialAccount
 
 
 class AccountEmailaddress(models.Model):
@@ -118,11 +114,11 @@ class Clubs(models.Model):
     club_desc = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
     club_type = models.ForeignKey(ClubTypes, models.DO_NOTHING)
-    club_img_url = models.ImageField(upload_to="%Y/%m/%d")
-    club_logo_url = models.CharField(max_length=1000, blank=True, null=True)
+    club_img_url = models.CharField(max_length=500, blank=True, null=True)
+    club_logo_url = models.CharField(max_length=500, blank=True, null=True)
     established = models.DateTimeField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -216,8 +212,8 @@ class Posts(models.Model):
     post_introduce = models.CharField(max_length=200, blank=True, null=True)
     post_img_url = models.CharField(max_length=1500, blank=True, null=True)
     user_id = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
     is_deleted = models.TextField(blank=True, null=True)  # This field type is a guess.
     club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
 
@@ -232,8 +228,8 @@ class PostsReplies(models.Model):
     post = models.ForeignKey(Posts, models.DO_NOTHING, blank=True, null=True)
     parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True)
     post_reply_content = models.CharField(max_length=500, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
     is_deleted = models.TextField(blank=True, null=True)  # This field type is a guess.
 
     class Meta:
@@ -273,8 +269,8 @@ class RelInterestClub(models.Model):
     interest_club_id = models.AutoField(primary_key=True)
     club = models.ForeignKey(Clubs, models.DO_NOTHING)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -285,7 +281,7 @@ class SocialaccountSocialaccount(models.Model):
     provider = models.CharField(max_length=30)
     uid = models.CharField(max_length=191)
     last_login = models.DateTimeField()
-    date_joined = models.DateTimeField(auto_now_add=True)
+    date_joined = models.DateTimeField()
     extra_data = models.TextField()
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
@@ -331,8 +327,8 @@ class SocialaccountSocialtoken(models.Model):
 
 
 class UsersAdditionalInfo(models.Model):
-    user_info = models.OneToOneField(User, models.DO_NOTHING, primary_key=True)
-    profile = models.CharField(max_length=5000)
+    user_info = models.OneToOneField(AuthUser, models.DO_NOTHING, primary_key=True)
+    profile = models.CharField(max_length=100)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
     is_verfied = models.IntegerField()
@@ -340,11 +336,3 @@ class UsersAdditionalInfo(models.Model):
     class Meta:
         managed = False
         db_table = 'users_additional_info'
-
-
-    
-@receiver(signals.post_save, sender=SocialAccount)
-def create_addtional_user_info(sender, instance, created, **kwargs):
-    print(instance)
-    if created:
-        UsersAdditionalInfo.objects.create(user_info=instance.user, profile= instance.get_avatar_url())
