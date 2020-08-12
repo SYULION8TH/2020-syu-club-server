@@ -1,7 +1,7 @@
-from .models import Qna
+from user.models import ClubsQna
 from rest_framework import serializers
 
 class QnaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Qna
-        field = ['id', 'title', 'body', 'comment']
+        model = ClubsQna
+        field = '__all__'
