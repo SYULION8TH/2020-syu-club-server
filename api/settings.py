@@ -218,6 +218,7 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 STATIC_ROOT = '%s/static' % AWS_S3_CUSTOM_DOMAIN
 MEDIA_ROOT = '%s/media' % AWS_S3_CUSTOM_DOMAIN
+
 # allauth 설정
 SITE_ID= 1
 LOGIN_REDIRECT_URL = 'http://localhost:3000'

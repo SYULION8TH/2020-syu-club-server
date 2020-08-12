@@ -6,6 +6,9 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models import signals
+from django.dispatch import receiver
 
 
 class AccountEmailaddress(models.Model):
@@ -114,8 +117,8 @@ class Clubs(models.Model):
     club_desc = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
     club_type = models.ForeignKey(ClubTypes, models.DO_NOTHING)
-    club_img_url = models.CharField(max_length=500, blank=True, null=True)
-    club_logo_url = models.CharField(max_length=500, blank=True, null=True)
+    club_img_url = models.ImageField(upload_to="%Y/%m/%d")
+    club_logo_url = models.CharField(max_length=1000, blank=True, null=True)
     established = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -324,3 +327,21 @@ class SocialaccountSocialtoken(models.Model):
         managed = False
         db_table = 'socialaccount_socialtoken'
         unique_together = (('app', 'account'),)
+
+
+class UsersAdditionalInfo(models.Model):
+    user_info = models.OneToOneField(User, models.DO_NOTHING, primary_key=True)
+    profile = models.ImageField(upload_to= "profile")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_verfied = models.IntegerField(default=0)
+
+    class Meta:
+        db_table = 'users_additional_info'
+
+    
+@receiver(signals.post_save, sender=SocialaccountSocialaccount)
+def create_addtional_user_info(sender, instance, created, **kwargs):
+    print(instance)
+    if created:
+        UsersAdditionalInfo.objects.create(user_info=instance.client_id, profile= instance.client_id.socialaccount_set.all()[0].get_avatar_url)

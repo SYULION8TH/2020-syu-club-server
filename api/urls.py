@@ -21,12 +21,20 @@ from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
 
+from user import views
+
+# from rest_framework import routers
+
+# router = routers.DefaultRouter()
+# router.register('user', views.InfoGenerics)
+
 urlpatterns = [
     # 모든 주소를 우선 client 쪽으로 연결시킴
     url(r'^$', TemplateView.as_view(template_name='index.html'),name='index'),
     path('admin/', admin.site.urls),
     # 소셜 로그인 관련 url
-    path("accounts/" , include('allauth.urls'))
+    path("accounts/" , include('allauth.urls')),
+    path("api/user/", views.InfoGenerics.as_view(), name="userInfo"),
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
