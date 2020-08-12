@@ -21,8 +21,8 @@ https://drive.google.com/drive/folders/1SVlbKT-klrC5g_k3ljm5sYO2dVz33sVd?usp=sha
 5. 가상환경 실행 후 requirements.txt가 있는 위치에서 `pip install -r requirements.txt`명령어를 입력합니다.
 
 6. `python manage.py runserver` 이후 `127.0.0.1:8000/admin`으로 들어가서 제대로 되는지 확인합니다.
-- id : dev
-- password : 12345
+> - id : dev
+> - password : 12345
 
 7. 개발 시작합시다.
 
