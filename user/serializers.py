@@ -3,13 +3,17 @@ from django.contrib.auth.models import User
 from . import models
 
 
-class SocialSerializer(serializers.ModelSerializer):
+class InterestClubSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.SocialaccountSocialaccount
+        model = models.RelInterestClub
+        fields = '__all__'
+class AdditionalInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.UsersAdditionalInfo
         fields = '__all__'
 
 class InfoSerializer(serializers.ModelSerializer):
-    socialaccount_set = SocialSerializer
+    interest_club = InterestClubSerializer
     class Meta:
         model = User
-        fields = ['id', 'socialaccount_set']
+        fields = ['id', 'is_superuser', 'username', 'first_name', 'last_name', 'email', 'is_staff','interest_club']
