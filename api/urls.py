@@ -33,14 +33,10 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html'),name='index'),
     path('admin/', admin.site.urls),
     # 소셜 로그인 관련 url
-<<<<<<< HEAD
     path("accounts/" , include('allauth.urls')),
     path("api/user/", views.InfoGenerics.as_view(), name="userInfo"),
-=======
-    path("accounts/" , include('allauth.urls'))
     # qna 관련 url
     path('qna/', include('qna.urls')),
->>>>>>> 72ce029c621bbe6030499a6cb4909c898b1d2316
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
