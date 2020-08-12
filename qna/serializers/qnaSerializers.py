@@ -1,5 +1,3 @@
-<<<<<<< HEAD:qna/serializers/qna_serializers.py
-=======
 from user.models import ClubsQna
 from rest_framework import serializers
 
