@@ -27,6 +27,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # 소셜 로그인 관련 url
     path("accounts/" , include('allauth.urls'))
+    # qna 관련 url
+    path('qna/', include('qna.urls')),
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
