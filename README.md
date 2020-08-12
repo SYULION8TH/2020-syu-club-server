@@ -47,7 +47,7 @@ https://drive.google.com/drive/folders/1SVlbKT-klrC5g_k3ljm5sYO2dVz33sVd?usp=sha
 - 게시물 목록 
 - 게시물 상세
 - 게시물 좋아요 기능 N:M
-- 조회수 측정
+- 조회수 측정 - 위보람
 - 인기 게시물(?)
 - 게시물 댓글 / 게시물 대댓글대댓글
 
