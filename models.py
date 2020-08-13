@@ -142,10 +142,10 @@ class ClubsQna(models.Model):
     question_title = models.CharField(max_length=150, blank=True, null=True)
     question_content = models.CharField(max_length=3000, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
-    post = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
+    club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-    is_deleted = models.IntegerField(blank=True, null=True)
+    is_deleted = models.TextField(blank=True, null=True)  # This field type is a guess.
 
     class Meta:
         managed = False
@@ -222,6 +222,18 @@ class Posts(models.Model):
         db_table = 'posts'
 
 
+class PostsLike(models.Model):
+    posts_like_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    posts = models.ForeignKey(Posts, models.DO_NOTHING)
+    created_at = models.DateTimeField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'posts_like'
+
+
 class PostsReplies(models.Model):
     post_reply_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
@@ -257,8 +269,8 @@ class QnaReplies(models.Model):
     qna_reply_content = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField()
-    is_deleted = models.IntegerField(blank=True, null=True)
-    is_secret = models.IntegerField(blank=True, null=True)
+    is_deleted = models.TextField(blank=True, null=True)  # This field type is a guess.
+    is_secret = models.TextField(blank=True, null=True)  # This field type is a guess.
 
     class Meta:
         managed = False
@@ -328,10 +340,9 @@ class SocialaccountSocialtoken(models.Model):
 
 class UsersAdditionalInfo(models.Model):
     user_info = models.OneToOneField(AuthUser, models.DO_NOTHING, primary_key=True)
-    profile = models.CharField(max_length=100)
+    profile = models.CharField(max_length=5000, blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-    is_verfied = models.IntegerField()
 
     class Meta:
         managed = False

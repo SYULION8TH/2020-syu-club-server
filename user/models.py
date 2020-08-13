@@ -117,8 +117,8 @@ class Clubs(models.Model):
     club_name = models.CharField(max_length=200, blank=True, null=True)
     club_desc = models.CharField(max_length=200, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
-    club_type = models.ForeignKey(ClubTypes, models.DO_NOTHING)
-    club_img_url = models.ImageField(upload_to="%Y/%m/%d")
+    club_type = models.ForeignKey(ClubTypes, models.DO_NOTHING, null=True)
+    club_img_url = models.ImageField(upload_to="%Y/%m/%d", null=True)
     club_logo_url = models.CharField(max_length=1000, blank=True, null=True)
     established = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -149,7 +149,7 @@ class ClubsQna(models.Model):
     question_title = models.CharField(max_length=150, blank=True, null=True)
     question_content = models.CharField(max_length=3000, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
-    post = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
+    club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
     is_deleted = models.IntegerField(blank=True, null=True)
@@ -218,10 +218,10 @@ class Posts(models.Model):
     post_content = models.CharField(max_length=3000)
     post_introduce = models.CharField(max_length=200, blank=True, null=True)
     post_img_url = models.CharField(max_length=1500, blank=True, null=True)
-    user_id = models.IntegerField(blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_deleted = models.TextField(blank=True, null=True)  # This field type is a guess.
+    is_deleted = models.IntegerField(default=0)  # This field type is a guess.
     club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
@@ -237,7 +237,7 @@ class PostsReplies(models.Model):
     post_reply_content = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_deleted = models.TextField(blank=True, null=True)  # This field type is a guess.
+    is_deleted = models.IntegerField(default=0) 
 
     class Meta:
         managed = False
@@ -245,7 +245,7 @@ class PostsReplies(models.Model):
 
 
 class PostsViews(models.Model):
-    post = models.ForeignKey(Posts, models.DO_NOTHING)
+    post = models.ForeignKey(Posts, models.DO_NOTHING, null=True)
     views_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
     user_ip = models.IntegerField(blank=True, null=True)
@@ -258,12 +258,12 @@ class PostsViews(models.Model):
 
 class QnaReplies(models.Model):
     qna_reply_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE, blank=True, null=True)
     question = models.ForeignKey(ClubsQna, models.DO_NOTHING, blank=True, null=True)
     parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True)
     qna_reply_content = models.CharField(max_length=500, blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.IntegerField(blank=True, null=True)
     is_secret = models.IntegerField(blank=True, null=True)
 
@@ -274,8 +274,8 @@ class QnaReplies(models.Model):
 
 class RelInterestClub(models.Model):
     interest_club_id = models.AutoField(primary_key=True)
-    club = models.ForeignKey(Clubs, models.DO_NOTHING)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    club = models.ForeignKey(Clubs, models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, null=True, related_name='interest_club')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -335,19 +335,25 @@ class SocialaccountSocialtoken(models.Model):
 
 class UsersAdditionalInfo(models.Model):
     user_info = models.OneToOneField(User, models.DO_NOTHING, primary_key=True)
-    profile = models.CharField(max_length=5000)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
-    is_verfied = models.IntegerField()
+    profile = models.CharField(max_length=5000, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        managed = False
         db_table = 'users_additional_info'
 
 
-    
+class PostsLike(models.Model):
+    posts_like_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    posts = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+
 @receiver(signals.post_save, sender=SocialAccount)
 def create_addtional_user_info(sender, instance, created, **kwargs):
-    print(instance)
     if created:
         UsersAdditionalInfo.objects.create(user_info=instance.user, profile= instance.get_avatar_url())
