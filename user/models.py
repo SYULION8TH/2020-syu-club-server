@@ -152,7 +152,7 @@ class ClubsQna(models.Model):
     club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-    is_deleted = models.IntegerField(blank=True, null=True)
+    is_deleted = models.IntegerField(default=0)
 
     class Meta:
         managed = False
