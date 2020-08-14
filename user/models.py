@@ -124,6 +124,9 @@ class Clubs(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.club_name
+
     class Meta:
         managed = False
         db_table = 'clubs'
