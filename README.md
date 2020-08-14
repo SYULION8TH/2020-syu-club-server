@@ -52,6 +52,7 @@ models = ClubsQna, QnaReplies
 
 ### 게시물 - 박미란
 models = Posts, PostsReplies, PostsViews, PostsLike
+PostsViews는 조회수 테이블입니다.
 
 - 게시물 목록 - 검색 기능
 - 게시물 상세
