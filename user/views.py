@@ -11,7 +11,6 @@ class InfoGenerics(APIView):
     def get(self, request):
         user = get_object_or_404(User, pk=self.request.user.id)
         serializer = InfoSerializer(user)
-        print(user.usersadditionalinfo)
         social_serializer = AdditionalInfoSerializer(user.usersadditionalinfo)
         return Response({
             "user": serializer.data,
