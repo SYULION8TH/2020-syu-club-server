@@ -37,6 +37,10 @@ urlpatterns = [
     path("api/user/", views.InfoGenerics.as_view(), name="userInfo"),
     # qna 관련 url
     path('api/', include('qna.urls')),
+    # clubs 관련 url
+    path('api/', include('club.urls')),
+    # post 관련 url
+    path('api/', include('board.urls')),
 ]
 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
