@@ -211,14 +211,22 @@ AWS_S3_CUSTOM_DOMAIN='%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_RE
 
 AWS_DEFAULT_ACL = 'public-read'
 AWS_LOCATION = 'static'
-STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+# STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-STATIC_ROOT = '%s/static' % AWS_S3_CUSTOM_DOMAIN
+# STATIC_ROOT = '%s/static' % AWS_S3_CUSTOM_DOMAIN
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = '%s/media' % AWS_S3_CUSTOM_DOMAIN
+
+STATICFILES_DIRS = [
+    # 실제 static 파일은 모두 client 측에서 소유 
+    os.path.join(BASE_DIR, 'client/static')
+]
 
 # allauth 설정
 SITE_ID= 1
-LOGIN_REDIRECT_URL = 'http://localhost:3000'
+LOGIN_REDIRECT_URL = 'http://localhost:8000'
