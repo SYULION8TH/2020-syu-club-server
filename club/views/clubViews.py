@@ -3,7 +3,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from club.serializers.club_serializers import ClubsSerializer 
+from club.serializers.clubSerializers import ClubsSerializer 
 from user.models import Clubs
 
 class ClubsList(APIView):
