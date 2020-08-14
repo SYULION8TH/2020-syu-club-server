@@ -1,20 +1,14 @@
-<<<<<<< HEAD
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from club.views import club_views
+from rest_framework.urlpatterns import format_suffix_patterns
+from club.views import clubViews
+from club.views import intClubViews
 
 urlpatterns = [
-    path('clubs/', club_views.ClubsList.as_view()),
-    path('clubs/<int:pk>',club_views.ClubDetail.as_view()),
-]
-=======
-from django.contrib import admin
-from django.urls import path, include
-
-
-urlpatterns = [
+    path('clubs/', clubViews.ClubsList.as_view()),
+    path('clubs/<int:pk>',clubViews.ClubDetail.as_view()),
+    path('int-clubs', intClubViews.interestClubList.as_view()),
+    path('int-clubs/<int:pk>', intClubViews.interestClubDetail.as_view()),
 
 ]
-
-
->>>>>>> 6b91237f33761b5fa7c577c7f5f4bc58c0bb5b2e
+urlpatterns = format_suffix_patterns(urlpatterns)
