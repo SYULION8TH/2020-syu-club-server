@@ -22,7 +22,7 @@ https://drive.google.com/drive/folders/1SVlbKT-klrC5g_k3ljm5sYO2dVz33sVd?usp=sha
 
 6. `python manage.py runserver` 이후 `127.0.0.1:8000/admin`으로 들어가서 제대로 되는지 확인합니다.
 > - id : dev
-> - password : 12345
+> - password : 12345   
 ※`python manage.py migrate`는 하지마세요※
 
 7. 개발 시작합시다.
