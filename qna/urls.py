@@ -1,10 +1,11 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import qnaViews
+from .views import qnaviews
+from .views import qnaCommentViews
 
 router = DefaultRouter()
-router.register('qna', qnaViews.QnaViewSet)
-# router.register('qna_comment', views.Qna_CommentViewSet)
+router.register('qna', qnaviews.QnaViewSet)
+router.register('qnareplies', qnaCommentViews.QnaRepliesViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
