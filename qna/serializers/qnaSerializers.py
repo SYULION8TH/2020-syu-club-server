@@ -3,7 +3,7 @@ from rest_framework import serializers
 from qna.serializers import qnaCommentSerializers
 
 class QnaSerializer(serializers.ModelSerializer):
-    qnareplies = qnaCommentSerializers.QnaRepliesSerializer(many=True, read_only=True)
+    # qnareplies = qnaCommentSerializers.QnaRepliesSerializer(many=True)
 
     class Meta:
         model = ClubsQna

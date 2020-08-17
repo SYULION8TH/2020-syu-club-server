@@ -1,7 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import qnaviews
-from .views import qnaCommentViews
+from .views import qnaviews, qnaCommentViews
 
 router = DefaultRouter()
 router.register('qna', qnaviews.QnaViewSet)
