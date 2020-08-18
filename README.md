@@ -22,7 +22,8 @@ https://drive.google.com/drive/folders/1SVlbKT-klrC5g_k3ljm5sYO2dVz33sVd?usp=sha
 
 6. `python manage.py runserver` 이후 `127.0.0.1:8000/admin`으로 들어가서 제대로 되는지 확인합니다.
 > - id : dev
-> - password : 12345
+> - password : 12345   
+※`python manage.py migrate`는 하지마세요※
 
 7. 개발 시작합시다.
 
@@ -34,22 +35,26 @@ https://drive.google.com/drive/folders/1SVlbKT-klrC5g_k3ljm5sYO2dVz33sVd?usp=sha
 동아리 앱 폴더:
 
 ### 동아리 - 하늘
+models = ClubTypes, Clubs, RelInterestClub
 
-- 동아리 목록 / 상세
+- 동아리 목록 / 상세 - 검색 기능
 - 활동 포스팅 좋아요 개수에 따른 동아리 목록
 - 관심 동아리 목록
 - 관심 동아리 설정
 - 관심 동아리 삭제
 
 ### QnA - 이지수
+models = ClubsQna, QnaReplies
 
-- QnA 목록
+- QnA 목록 - 검색 기능
 - QnA 상세
 - QnA 댓글 / 비밀댓글(?) / QnA 대댓글
 
 ### 게시물 - 박미란
+models = Posts, PostsReplies, PostsViews, PostsLike
+PostsViews는 조회수 테이블입니다.
 
-- 게시물 목록 
+- 게시물 목록 - 검색 기능
 - 게시물 상세
 - 게시물 좋아요 기능 N:M
 - 조회수 측정 - 위보람
