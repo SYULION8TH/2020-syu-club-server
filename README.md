@@ -38,7 +38,7 @@ https://drive.google.com/drive/folders/1SVlbKT-klrC5g_k3ljm5sYO2dVz33sVd?usp=sha
 models = ClubTypes, Clubs, RelInterestClub
 
 - 동아리 목록 / 상세 - 검색 기능
-- 활동 포스팅 좋아요 개수에 따른 동아리 목록
+- 포스팅 좋아요 개수에 따른 동아리 목록
 - 관심 동아리 목록
 - 관심 동아리 설정
 - 관심 동아리 삭제
