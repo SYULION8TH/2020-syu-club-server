@@ -251,6 +251,9 @@ class PostsViews(models.Model):
     user_ip = models.CharField(max_length=16)
     checked_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return str(self.checked_at)
+
     class Meta:
         managed = False
         db_table = 'posts_views'
