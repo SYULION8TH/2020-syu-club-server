@@ -9,8 +9,10 @@ from user.models import RelInterestClub
 class interestClubList(APIView):
     def get(self, request, format=None):
         intClubs = RelInterestClub.objects.all()
-        serializer = intClubsSerializer(intClubs, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if intClubs.exists():
+            serializer = intClubsSerializer(intClubs, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({"Returned empty queryset"}, status=status.HTTP_404_NOT_FOUND)     
 
     # def post(self, request, format=None):
     #     serializer = intClubsSerializer(data=request.data)
@@ -28,7 +30,7 @@ class interestClubDetail(APIView):
             raise Http404 
 
     def delete(self, request, pk, format=None):
-        club = self.get_object(pk)  
+        club = self.get_object(pk)
         club.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

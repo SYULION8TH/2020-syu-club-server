@@ -4,6 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from club.views import clubViews
 from club.views import intClubViews
 
+
 urlpatterns = [
     path('clubs/', clubViews.ClubsList.as_view()),
     path('clubs/<int:pk>',clubViews.ClubDetail.as_view()),
