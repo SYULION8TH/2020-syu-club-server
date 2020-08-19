@@ -248,8 +248,8 @@ class PostsViews(models.Model):
     post = models.ForeignKey(Posts, models.DO_NOTHING, null=True)
     views_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-    user_ip = models.IntegerField(blank=True, null=True)
-    checked_at = models.DateTimeField(blank=True, null=True)
+    user_ip = models.CharField(max_length=16)
+    checked_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         managed = False

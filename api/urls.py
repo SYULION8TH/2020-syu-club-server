@@ -39,8 +39,6 @@ urlpatterns = [
     path('api/', include('qna.urls')),
     #club 관련 url
     path('api/', include('club.urls')),
-    # clubs 관련 url
-    path('api/', include('club.urls')),
     # post 관련 url
     path('api/', include('board.urls')),
 
