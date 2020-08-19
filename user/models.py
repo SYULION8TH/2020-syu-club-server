@@ -233,7 +233,7 @@ class PostsReplies(models.Model):
     post_reply_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     post = models.ForeignKey(Posts, models.DO_NOTHING, blank=True, null=True)
-    parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True)
+    parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True, related_name='reply')
     post_reply_content = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
