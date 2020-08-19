@@ -116,7 +116,7 @@ class Clubs(models.Model):
     club_id = models.AutoField(primary_key=True)
     club_name = models.CharField(max_length=200, blank=True, null=True)
     club_desc = models.CharField(max_length=200, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     club_type = models.ForeignKey(ClubTypes, models.DO_NOTHING, null=True)
     club_img_url = models.ImageField(upload_to="%Y/%m/%d", null=True)
     club_logo_url = models.CharField(max_length=1000, blank=True, null=True)
@@ -148,7 +148,7 @@ class ClubsQna(models.Model):
     question_id = models.AutoField(primary_key=True)
     question_title = models.CharField(max_length=150, blank=True, null=True)
     question_content = models.CharField(max_length=3000, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
@@ -218,7 +218,7 @@ class Posts(models.Model):
     post_content = models.CharField(max_length=3000)
     post_introduce = models.CharField(max_length=200, blank=True, null=True)
     post_img_url = models.CharField(max_length=1500, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.IntegerField(default=0)  # This field type is a guess.
@@ -231,7 +231,7 @@ class Posts(models.Model):
 
 class PostsReplies(models.Model):
     post_reply_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     post = models.ForeignKey(Posts, models.DO_NOTHING, blank=True, null=True)
     parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True)
     post_reply_content = models.CharField(max_length=500, blank=True, null=True)
@@ -247,9 +247,9 @@ class PostsReplies(models.Model):
 class PostsViews(models.Model):
     post = models.ForeignKey(Posts, models.DO_NOTHING, null=True)
     views_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
-    user_ip = models.IntegerField(blank=True, null=True)
-    checked_at = models.DateTimeField(blank=True, null=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+    user_ip = models.CharField(max_length=16)
+    checked_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         managed = False
@@ -340,6 +340,7 @@ class UsersAdditionalInfo(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        managed = False
         db_table = 'users_additional_info'
 
 
@@ -347,11 +348,13 @@ class PostsLike(models.Model):
     posts_like_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     posts = models.ForeignKey(Posts, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
+        db_table = 'posts_like'
+
 
 @receiver(signals.post_save, sender=SocialAccount)
 def create_addtional_user_info(sender, instance, created, **kwargs):
