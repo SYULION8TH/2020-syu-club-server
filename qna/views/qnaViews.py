@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from user.models import ClubsQna
+from user.models import QnaReplies
 from qna.serializers import qnaSerializers
 from rest_framework.filters import SearchFilter
 

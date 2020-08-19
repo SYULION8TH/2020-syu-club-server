@@ -148,7 +148,7 @@ class ClubsQna(models.Model):
     question_id = models.AutoField(primary_key=True)
     question_title = models.CharField(max_length=150, blank=True, null=True)
     question_content = models.CharField(max_length=3000, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
