@@ -141,11 +141,11 @@ class ClubsQna(models.Model):
     question_id = models.AutoField(primary_key=True)
     question_title = models.CharField(max_length=150, blank=True, null=True)
     question_content = models.CharField(max_length=3000, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
-    club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
+    user_id = models.IntegerField()
+    club_id = models.IntegerField()
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-    is_deleted = models.TextField(blank=True, null=True)  # This field type is a guess.
+    is_deleted = models.IntegerField()
 
     class Meta:
         managed = False
@@ -211,10 +211,10 @@ class Posts(models.Model):
     post_content = models.CharField(max_length=3000)
     post_introduce = models.CharField(max_length=200, blank=True, null=True)
     post_img_url = models.CharField(max_length=1500, blank=True, null=True)
-    user_id = models.IntegerField(blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-    is_deleted = models.TextField(blank=True, null=True)  # This field type is a guess.
+    is_deleted = models.IntegerField()
     club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
@@ -222,27 +222,15 @@ class Posts(models.Model):
         db_table = 'posts'
 
 
-class PostsLike(models.Model):
-    posts_like_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    posts = models.ForeignKey(Posts, models.DO_NOTHING)
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'posts_like'
-
-
 class PostsReplies(models.Model):
     post_reply_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING, blank=True, null=True)
-    post = models.ForeignKey(Posts, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    post = models.ForeignKey(Posts, models.DO_NOTHING)
     parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True)
     post_reply_content = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-    is_deleted = models.TextField(blank=True, null=True)  # This field type is a guess.
+    is_deleted = models.IntegerField()
 
     class Meta:
         managed = False
@@ -269,8 +257,8 @@ class QnaReplies(models.Model):
     qna_reply_content = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField()
-    is_deleted = models.TextField(blank=True, null=True)  # This field type is a guess.
-    is_secret = models.TextField(blank=True, null=True)  # This field type is a guess.
+    is_deleted = models.IntegerField()
+    is_secret = models.IntegerField()
 
     class Meta:
         managed = False
@@ -336,6 +324,18 @@ class SocialaccountSocialtoken(models.Model):
         managed = False
         db_table = 'socialaccount_socialtoken'
         unique_together = (('app', 'account'),)
+
+
+class UserPostslike(models.Model):
+    posts_like_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    posts = models.ForeignKey(Posts, models.DO_NOTHING)
+    created_at = models.DateTimeField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'user_postslike'
 
 
 class UsersAdditionalInfo(models.Model):

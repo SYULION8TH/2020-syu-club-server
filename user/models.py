@@ -340,6 +340,7 @@ class UsersAdditionalInfo(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        managed = False
         db_table = 'users_additional_info'
 
 
@@ -347,11 +348,13 @@ class PostsLike(models.Model):
     posts_like_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     posts = models.ForeignKey(Posts, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
+        db_table = 'posts_like'
+
 
 @receiver(signals.post_save, sender=SocialAccount)
 def create_addtional_user_info(sender, instance, created, **kwargs):
