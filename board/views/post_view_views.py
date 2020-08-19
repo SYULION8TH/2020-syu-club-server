@@ -21,6 +21,8 @@ class PostsViewAPIView(APIView):
         postView.post = get_object_or_404(Posts, pk = pk)
         if self.request.user:
             postView.user = self.request.user
+        else:
+            postView.user = None
         postView.user_ip = get_client_ip(request)
         postView.save()
 
