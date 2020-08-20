@@ -1,7 +1,7 @@
 from user.models import PostsReplies
 from rest_framework import serializers
 
-#to_representation을 오버라이딩 해서 화면에 출력 
+#to_representation을 오버라이딩 해서 화면에 출력
 class RecursiveSerializer(serializers.Serializer):
 	def to_representation(self, instance):
 		serializer = self.parent_reply.parent_reply.__class__(instance, context = self.context)
@@ -21,4 +21,3 @@ class PostsRepliesSerializer(serializers.ModelSerializer):
         #직렬화된 필드를 부모필드에 연결
         serializer.bind('', self)
         return serializer.data
-

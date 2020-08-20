@@ -8,7 +8,7 @@ urlpatterns = [
     path('posts/', post_views.PostList.as_view()), #게시물 목록
     path('posts/<int:pk>', post_views.PostDetailGenerics.as_view()), #게시물 상세보기
     path('posts/<int:pk>/postreplies/', post_replies_views.PostsRepliesList.as_view()),
-    path('posts/<int:pk>/post-view', post_view_views.PostsViewAPIView.as_view())
+    path('posts/<int:pk>/view', post_view_views.PostsViewAPIView.as_view())
 ]
 
 
