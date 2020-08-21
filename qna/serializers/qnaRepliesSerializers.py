@@ -20,3 +20,13 @@ class QnaRepliesSerializer(serializers.ModelSerializer):
         #직렬화된 필드를 부모필드에 연결
         serializer.bind('', self)
         return serializer.data
+
+#  def like(request,post_id):
+#     post=get_object_or_404(Post, pk = post_id)
+#     if post.user.filter(username=request.user.username).exists():
+#         post.user.remove(request.user)    
+#     else:
+#         post.user.add(request.user)
+#     post.save()
+#     return redirect('detail', post_id)
+

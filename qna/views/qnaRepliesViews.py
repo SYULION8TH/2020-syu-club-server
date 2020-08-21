@@ -4,13 +4,16 @@ from qna.serializers import qnaRepliesSerializers
 from django.shortcuts import render
 
 
-class QnaRepliesList(generics.RetrieveAPIView): 
+class QnaRepliesList(generics.ListAPIView): 
     serializer_class = qnaRepliesSerializers.QnaRepliesSerializer
     queryset = QnaReplies.objects.all()
+    pk_url_kwarg = 'pk'
 
     def get_queryset(self):
+        # url의 pk 값을 받아오기
+        pk = self.kwargs.get(self.pk_url_kwarg)
         qs = super().get_queryset()
-
+        qs = qs.filter(question = pk)
             # 1. 글 pk에 연관된 qna만 가져오기
             # 2. 로그인 한 내가, 관리자인지 알아보기
         if(self.request.user.is_superuser):
