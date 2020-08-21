@@ -64,16 +64,11 @@ class FamousClubList(generics.GenericAPIView):
         return Response({"Returned empty queryset"}, status=status.HTTP_404_NOT_FOUND)  
 
 class FClubList(mixins.ListModelMixin, generics.GenericAPIView):
-    queryset = Posts.objects.values('club').annotate(like_count= Count('like'), club_id=F('club')).values('club_id', 'like_count').order_by('-like_count')
-    serializer_class = FClubSerializer
+    # queryset = Posts.objects.values('club').annotate(like_count= Count('like'), club_id=F('club')).values('club_id', 'like_count').order_by('-like_count')
+    # serializer_class = FClubSerializer
+    queryset = Clubs.objects.annotate(post_count = Count('club_posts')).all()
+    serializer_class = ClubsSerializer
 
     def get(self, request, *args, **kwargs):
         print(self.queryset)
         return self.list(request, *args, **kwargs)
-
-
-
-    
-
-           
-    
