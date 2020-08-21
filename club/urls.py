@@ -8,7 +8,6 @@ from club.views import intClubViews
 urlpatterns = [
     path('clubs/', clubViews.ClubsList.as_view()),
     path('clubs/<int:pk>',clubViews.ClubDetail.as_view()),
-    path('famous-club/', clubViews.FamousClubList.as_view()),
     path('int-clubs', intClubViews.InterestClubList.as_view()),
     path('int-clubs/<int:pk>', intClubViews.InterestClubDetail.as_view()),
     path('clubs/famous', clubViews.FClubList.as_view()),

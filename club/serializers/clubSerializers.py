@@ -15,24 +15,13 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ClubsSerializer(serializers.ModelSerializer):
-    club_posts = PostSerializer(many=True)
-    post_count = serializers.IntegerField()
     class Meta:
         model = Clubs
-        fields = ['club_id','club_name','club_desc','club_type','club_img_url','club_logo_url','established','club_posts', 'post_count']
+        fields = ['club_id','club_name','club_desc','club_type','club_img_url','club_logo_url','established']
 
-
-
-
-
-
-
-class FClubSerializer(serializers.Serializer):
-    club = serializers.SerializerMethodField()
+class FamousClubSerializer(serializers.ModelSerializer):
     like_count = serializers.IntegerField()
 
-    def get_club(self, obj):
-        club = get_object_or_404(Clubs, pk = obj["club_id"])
-        serializer = ClubsSerializer(club)
-        serializer.bind('',self)
-        return serializer.data
+    class Meta:
+        model = Clubs
+        fields = '__all__'
