@@ -222,7 +222,7 @@ class Posts(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.IntegerField(default=0)  # This field type is a guess.
-    club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
+    club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True, related_name='club_posts')
 
     class Meta:
         managed = False
@@ -350,7 +350,7 @@ class UsersAdditionalInfo(models.Model):
 class PostsLike(models.Model):
     posts_like_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    posts = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    posts = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name='like')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
