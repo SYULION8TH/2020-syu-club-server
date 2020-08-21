@@ -1,13 +1,14 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.contrib import admin
+# from rest_framework.urlpatterns import format_suffix_patternss
 from .views import qnaviews, qnaRepliesViews
+from qna.serializers import qnaSerializers, qnaRepliesSerializers
 
-router = DefaultRouter()
-router.register('qna', qnaviews.QnaViewSet)
-router.register('qnareplies', qnaRepliesViews.QnaRepliesViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('qna/<int:pk>', include(router.urls)),
+    path('qna/', qnaviews.QnaList.as_view()), #qna 목록
+    path('qna/<int:pk>/', qnaviews.QnaDetail.as_view()),
+    path('qna/<int:pk>/qnareplies/', qnaRepliesViews.QnaRepliesList.as_view()),
 ]
 
+# urlpatterns = format_suffix_patterns
