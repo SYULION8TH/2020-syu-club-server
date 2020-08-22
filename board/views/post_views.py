@@ -2,7 +2,7 @@ from django.shortcuts import render
 from user.models import Posts, PostsLike
 from rest_framework import generics, viewsets
 #경로를 표시하기 위해서는 . 단일파일이 아닌 폴더 형태기 때문에 경로 표시 필수
-from board.serializers.post_serializers import PostsSerializer, PostsLikeSerializer
+from board.serializers.post_serializers import PostsSerializer, PostsLikeSerializer, LikeSerializer
 #filter을 사용
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 
@@ -16,7 +16,8 @@ class PostFilter(FilterSet):
 
 class PostList(generics.ListCreateAPIView):
     queryset = Posts.objects.all()
-    serializer_class = PostsSerializer
+    # serializer_class = PostsSerializer
+    serializer_class = LikeSerializer
     # filter_class = PostFilter
     filterset_class = PostFilter
     filter_backends = [DjangoFilterBackend]

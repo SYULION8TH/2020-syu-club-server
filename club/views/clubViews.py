@@ -1,17 +1,20 @@
 from django.shortcuts import render
 from django.http import Http404
 from rest_framework.views import APIView
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, mixins
 from rest_framework.response import Response
 from rest_framework import status
-from club.serializers.clubSerializers import ClubsSerializer, PostSerializer,PostLikeSerializer
+from club.serializers.clubSerializers import ClubsSerializer, PostSerializer,PostLikeSerializer, FamousClubSerializer
 from user.models import Clubs, Posts, PostsLike
 from rest_framework.filters import SearchFilter
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
+<<<<<<< HEAD
 from django.db import connection
 from django.db.models import Count
 
+=======
+>>>>>>> b5ec6d280798e50402d02d297a878ed4501df620
 
 class ClubfilterSet(FilterSet):
     class Meta:
@@ -21,7 +24,8 @@ class ClubfilterSet(FilterSet):
 class ClubsList(generics.GenericAPIView):
     queryset = Clubs.objects.all()
     serializer_class = ClubsSerializer    
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ['club_name', 'club_desc', 'club_type', 'established']
     filterset_class = ClubfilterSet
 
     def get(self, request): 
@@ -44,10 +48,22 @@ class ClubDetail(APIView):
         serializer = ClubsSerializer(clubs_detail)  
         return Response(serializer.data)
 
+class FamousClubList(mixins.ListModelMixin, generics.GenericAPIView):
+    queryset = Clubs.objects.raw('SELECT TEMP.club_id, COUNT(L.posts_like_id) as like_count FROM\
+                 (SELECT C.club_id AS club_id, P.post_id as post_id, C.club_name AS club_name FROM\
+                 clubs as C LEFT JOIN posts as P ON C.club_id = P.club_id) TEMP LEFT JOIN posts_like AS L \
+                ON TEMP.post_id = L.posts_id GROUP BY TEMP.club_id order by like_count desc')
+    serializer_class = FamousClubSerializer
 
+<<<<<<< HEAD
 
 
     
 
            
     
+=======
+    def get(self, request, *args, **kwargs):
+        # print(self.queryset)
+        return self.list(request, *args, **kwargs)
+>>>>>>> b5ec6d280798e50402d02d297a878ed4501df620
