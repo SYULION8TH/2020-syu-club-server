@@ -2,7 +2,7 @@ from django.shortcuts import render
 from user.models import Posts, PostsLike
 from rest_framework import generics, viewsets, mixins, status
 #경로를 표시하기 위해서는 . 단일파일이 아닌 폴더 형태기 때문에 경로 표시 필수
-from board.serializers.post_serializers import PostsSerializer, PostsLikeSerializer, LikeSerializer
+from board.serializers.post_serializers import PostsSerializer, PostsLikeSerializer
 #filter을 사용
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from rest_framework.filters import SearchFilter

@@ -231,14 +231,10 @@ STATICFILES_DIRS = [
 SITE_ID= 1
 LOGIN_REDIRECT_URL = 'http://localhost:8000'
 
-# SWAGGER_SETTINGS = {
-#     'SECURITY_DEFINITIONS': {
-#         'basic': {
-#             'type': 'basic'
-#         }
-#     },
-# }
-
-# REDOC_SETTINGS = {
-#    'LAZY_RENDERING': False,
-# }
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+}
