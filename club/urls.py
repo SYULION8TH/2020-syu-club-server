@@ -1,8 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.urlpatterns import format_suffix_patterns
-from club.views import clubViews
-from club.views import intClubViews
+from club.views import clubViews, intClubViews
 
 
 urlpatterns = [

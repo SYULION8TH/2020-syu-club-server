@@ -8,7 +8,7 @@ class RecursiveSerializer(serializers.Serializer):
 		return serializer.data
 
 class PostsRepliesSerializer(serializers.ModelSerializer): 
-    reply = serializers.SerializerMethodField()
+    reply = serializers.SerializerMethodField(read_only= True)
 
     class Meta:
         model = PostsReplies

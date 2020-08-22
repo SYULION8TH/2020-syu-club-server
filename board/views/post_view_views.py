@@ -22,7 +22,7 @@ class PostsViewAPIView(APIView):
         flag = False
         now = datetime.now()
         yesterday = now - timedelta(hours=1)
-        postViews = PostsViews.objects.filter(checked_at__range = [yesterday, now])
+        postViews = PostsViews.objects.filter(checked_at__range = [yesterday, now], post=pk)
         print(postViews)
         postView = PostsViews()
         postView.post = get_object_or_404(Posts, pk = pk)

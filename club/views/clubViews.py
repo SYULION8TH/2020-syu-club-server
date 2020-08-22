@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework import viewsets, generics, mixins
 from rest_framework.response import Response
 from rest_framework import status
-from club.serializers.clubSerializers import ClubsSerializer, PostSerializer,PostLikeSerializer, FamousClubSerializer
+from club.serializers.clubSerializers import ClubsSerializer, FamousClubSerializer
 from user.models import Clubs, Posts, PostsLike
 from rest_framework.filters import SearchFilter
 from rest_framework import viewsets, filters
@@ -19,7 +19,7 @@ class ClubsList(generics.GenericAPIView):
     queryset = Clubs.objects.all()
     serializer_class = ClubsSerializer    
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    search_fields = ['club_name', 'club_desc', 'club_type', 'established']
+    search_fields = ['club_name', 'club_desc', 'established', 'club_type__club_type_name', 'club_type__club_type_desc']
     filterset_class = ClubfilterSet
 
     def get(self, request): 
