@@ -102,7 +102,7 @@ class AuthUserUserPermissions(models.Model):
 
 class ClubTypes(models.Model):
     club_type_id = models.AutoField(primary_key=True)
-    club_type_name = models.IntegerField(blank=True, null=True)
+    club_type_name = models.CharField(max_length=200, null=True)
     club_type_desc = models.CharField(max_length=200, blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
@@ -245,7 +245,7 @@ class PostsReplies(models.Model):
 
 
 class PostsViews(models.Model):
-    post = models.ForeignKey(Posts, models.DO_NOTHING, null=True)
+    post = models.ForeignKey(Posts, models.DO_NOTHING, null=True, related_name = 'view')
     views_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     user_ip = models.CharField(max_length=16)
@@ -293,7 +293,7 @@ class SocialaccountSocialaccount(models.Model):
     last_login = models.DateTimeField()
     date_joined = models.DateTimeField(auto_now_add=True)
     extra_data = models.TextField()
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    user = models.ForeignKey(User, models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -339,6 +339,7 @@ class SocialaccountSocialtoken(models.Model):
 class UsersAdditionalInfo(models.Model):
     user_info = models.OneToOneField(User, models.DO_NOTHING, primary_key=True)
     profile = models.CharField(max_length=5000, null=True)
+    name = models.CharField(max_length = 45)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -362,4 +363,8 @@ class PostsLike(models.Model):
 @receiver(signals.post_save, sender=SocialAccount)
 def create_addtional_user_info(sender, instance, created, **kwargs):
     if created:
-        UsersAdditionalInfo.objects.create(user_info=instance.user, profile= instance.get_avatar_url())
+        user = instance.user
+        if instance.provider == "google":
+            UsersAdditionalInfo.objects.create(user_info= user, profile= instance.get_avatar_url(), name = user.last_name + user.first_name)
+        else:
+            UsersAdditionalInfo.objects.create(user_info=instance.user, profile= instance.get_avatar_url(), name = user.username)

@@ -5,6 +5,8 @@ from django.contrib.auth.models import AnonymousUser
 
 
 class PostsSerializer(serializers.ModelSerializer):
+    likes = serializers.IntegerField(read_only = True)
+    views = serializers.IntegerField(read_only = True)
     class Meta:
         model = Posts
         Postsreplies = PostsRepliesSerializer
@@ -18,7 +20,7 @@ class PostsLikeSerializer(serializers.ModelSerializer):
 
 class LikeSerializer(serializers.ModelSerializer):
 
-    user_like = serializers.SerializerMethodField()
+    user_like = serializers.SerializerMethodField(read_only = True)
 
     class Meta:
         model = Posts

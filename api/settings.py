@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'corsheaders', # cors 정책 설정
     'storages', # aws storage 이용을 위한 앱
 
+    # 장고 drf_yasg url 매핑 패키지
+    'drf_yasg',
     # 장고 rlsmd doqemf
     'user',
     'board',
@@ -72,7 +74,6 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.IsAuthenticated',
     # )
 }
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -221,12 +222,23 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = '%s/media' % AWS_S3_CUSTOM_DOMAIN
-
 STATICFILES_DIRS = [
     # 실제 static 파일은 모두 client 측에서 소유 
-    os.path.join(BASE_DIR, 'client/static')
+    os.path.join(BASE_DIR, 'client/static'),    
 ]
 
 # allauth 설정
 SITE_ID= 1
 LOGIN_REDIRECT_URL = 'http://localhost:8000'
+
+# SWAGGER_SETTINGS = {
+#     'SECURITY_DEFINITIONS': {
+#         'basic': {
+#             'type': 'basic'
+#         }
+#     },
+# }
+
+# REDOC_SETTINGS = {
+#    'LAZY_RENDERING': False,
+# }
