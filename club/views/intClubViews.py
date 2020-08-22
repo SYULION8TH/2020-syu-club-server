@@ -1,25 +1,24 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
-from club.serializers.intClubSerializers import IntClubsSerializer 
+from club.serializers.intClubSerializers import IntClubsSerializer
 from user.models import RelInterestClub, Clubs
 
 class InterestClub(APIView):
 
-    def post(self, request,pk, format=None):
-        intClub = get_object_or_404(Clubs, pk=pk)
-        print(intClub)
-        # if post.user.filter(username=request.user.username).exists():
-        # post.user.remove(request.user)    
-        # else:
-        # post.user.add(request.user)
-        serializer = IntClubsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)      
+    def post(self,request, pk):    
+        club_obj = RelInterestClub()
+        club_obj.club = get_object_or_404(Clubs, pk = pk)
+        if type(request.user) == AnonymousUser:
+            club_obj.user = None
+        else:
+            club_obj.user = self.request.user
+       
+        club_obj.save()
+        return Response('추가되었습니다.', status = status.HTTP_201_CREATED)
 
 
 class InterestClubDetail(APIView):

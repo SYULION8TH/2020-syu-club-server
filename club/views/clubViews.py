@@ -4,17 +4,15 @@ from rest_framework.views import APIView
 from rest_framework import viewsets, generics, mixins
 from rest_framework.response import Response
 from rest_framework import status
-from club.serializers.clubSerializers import ClubsSerializer, PostSerializer,PostLikeSerializer, FamousClubSerializer
+from club.serializers.clubSerializers import ClubsSerializer, PostSerializer,PostLikeSerializer, FamousClubSerializer, LikeSerializer
+# from club.serializers.intClubSerializers import LikeSerializer
 from user.models import Clubs, Posts, PostsLike
 from rest_framework.filters import SearchFilter
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
-<<<<<<< HEAD
 from django.db import connection
 from django.db.models import Count
 
-=======
->>>>>>> b5ec6d280798e50402d02d297a878ed4501df620
 
 class ClubfilterSet(FilterSet):
     class Meta:
@@ -23,15 +21,16 @@ class ClubfilterSet(FilterSet):
 
 class ClubsList(generics.GenericAPIView):
     queryset = Clubs.objects.all()
-    serializer_class = ClubsSerializer    
+    serializer_class = LikeSerializer    
     filter_backends = [DjangoFilterBackend, SearchFilter]
     search_fields = ['club_name', 'club_desc', 'club_type', 'established']
     filterset_class = ClubfilterSet
 
-    def get(self, request): 
+    def get(self, request):
+
         clubs = self.filter_queryset(self.get_queryset())
         if clubs.exists():
-            serializer = self.serializer_class(clubs, many=True)
+            serializer = self.serializer_class(clubs, many=True,context={'request': request})
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({"Returned empty queryset"}, status=status.HTTP_404_NOT_FOUND)  
 
@@ -55,15 +54,6 @@ class FamousClubList(mixins.ListModelMixin, generics.GenericAPIView):
                 ON TEMP.post_id = L.posts_id GROUP BY TEMP.club_id order by like_count desc')
     serializer_class = FamousClubSerializer
 
-<<<<<<< HEAD
-
-
-    
-
-           
-    
-=======
     def get(self, request, *args, **kwargs):
         # print(self.queryset)
         return self.list(request, *args, **kwargs)
->>>>>>> b5ec6d280798e50402d02d297a878ed4501df620

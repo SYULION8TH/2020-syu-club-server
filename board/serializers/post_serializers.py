@@ -31,6 +31,7 @@ class LikeSerializer(serializers.ModelSerializer):
         if type(user) == AnonymousUser:
             return False
         # 객체마다 유저가 like를 했는지 확인한다.
+        print(instance)
         if instance.like.filter(user = user).exists():
             return True
         else:
