@@ -9,9 +9,6 @@ from user.models import Clubs, Posts, PostsLike
 from rest_framework.filters import SearchFilter
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
-from django.db import connection
-from django.db.models import Count, F
-from itertools import chain
 
 class ClubfilterSet(FilterSet):
     class Meta:
@@ -21,7 +18,8 @@ class ClubfilterSet(FilterSet):
 class ClubsList(generics.GenericAPIView):
     queryset = Clubs.objects.all()
     serializer_class = ClubsSerializer    
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ['club_name', 'club_desc', 'club_type', 'established']
     filterset_class = ClubfilterSet
 
     def get(self, request): 

@@ -11,7 +11,7 @@ class InfoGenerics(APIView):
 
     def get(self, request):
         if type(request.user) == AnonymousUser:
-            return Response("Please login", status=status.HTTP_401_UNAUTHORIZED)
+            return Response("Please Login First", status=status.HTTP_401_UNAUTHORIZED)
         user = get_object_or_404(User, pk=self.request.user.id)
         serializer = InfoSerializer(user)
         if user.is_superuser == True:
