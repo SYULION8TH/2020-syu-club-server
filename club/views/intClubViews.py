@@ -14,6 +14,7 @@ class InterestClub(APIView):
         club_obj.club = get_object_or_404(Clubs, pk = pk)
         if type(request.user) == AnonymousUser:
             club_obj.user = None
+            return Response("Please Login First.", status = status.HTTP_400_BAD_REQUEST)
         else:
             club_obj.user = self.request.user
        
