@@ -22,7 +22,7 @@ class ClubsList(generics.GenericAPIView):
     search_fields = ['club_name', 'club_desc', 'established', 'club_type__club_type_name', 'club_type__club_type_desc']
     filterset_class = ClubfilterSet
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
 
         clubs = self.filter_queryset(self.get_queryset())
         if clubs.exists():

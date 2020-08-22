@@ -39,7 +39,7 @@ class LikeSerializer(serializers.ModelSerializer):
             return False
         # 객체마다 유저가 like를 했는지 확인한다.
         print(instance)
-        if instance.like.filter(user = user).exists():
+        if instance.like_user.filter(user = user).exists():
             return True
         else:
             return False        

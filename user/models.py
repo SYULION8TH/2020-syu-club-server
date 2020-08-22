@@ -277,8 +277,8 @@ class QnaReplies(models.Model):
 
 class RelInterestClub(models.Model):
     interest_club_id = models.AutoField(primary_key=True)
-    club = models.ForeignKey(Clubs, models.DO_NOTHING, null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, null=True, related_name='interest_club')
+    club = models.ForeignKey(Clubs, on_delete=models.CASCADE, null=True, related_name = 'like_user')
+    user = models.ForeignKey(User, on_delete=models.CASCADE , null=True, related_name='interest_club')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
