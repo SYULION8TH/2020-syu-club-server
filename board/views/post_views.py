@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.http import Http404
 from user.models import Posts, PostsLike
 from rest_framework import generics, viewsets, mixins, status
+from rest_framework.views import APIView
 #경로를 표시하기 위해서는 . 단일파일이 아닌 폴더 형태기 때문에 경로 표시 필수
 from board.serializers.post_serializers import PostsSerializer, PostsLikeSerializer
 #filter을 사용
@@ -44,13 +46,13 @@ class PostsLikesAPIView(APIView):
 
     def get_object(self, pk):
         try:
-            retrun Posts.objcets.get(pk=pk)
+            return Posts.objcets.get(pk=pk)
         except Posts.DoesNotExist:
             raise Http404
-    def get(self,request,format = None):
+    def get(self,request, pk, format = None):
         like = self.get_object(pk=pk)
         serializer = PostsLikeSerializer
-        return Response(serilaizer.data)
+        return Response(serializer.data)
     def delete(self,request,pk,format = None):
         like = self.get_object(pk=pk)
         like.delete()
