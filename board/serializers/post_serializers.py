@@ -29,10 +29,21 @@ class PostsSerializer(serializers.ModelSerializer):
 
 
 # 좋아요
-class PostsLikeSerializer(serializers.ModelSerializer):
+class PostslikeSerializer(serializers.ModelSerializer):
+    #like값을 받는 테이블//user related_name = 'like'
+    like = serializers.SerializerMethodField()
+
     class Meta:
-        model = PostsLike
-        fields = '__all__'
+        model = Posts
+        fields = ['user','like']
+
+
+        user = self.context['request'].user
+
+        if instance.like.filter(user = user).exists():
+            return True
+        else :
+            return False
 
 
 
