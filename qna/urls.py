@@ -6,7 +6,7 @@ from qna.serializers import qnaSerializers, qnaRepliesSerializers
 
 
 urlpatterns = [
-    path('qna/', qnaviews.QnaList.as_view()), #qna 목록
+    path('qna/', qnaviews.QnaList.as_view()), 
     path('qna/<int:pk>/', qnaviews.QnaDetail.as_view()),
     path('qna/<int:pk>/qnareplies/', qnaRepliesViews.QnaRepliesList.as_view()),
 ]
