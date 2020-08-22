@@ -1,22 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from club.serializers.intClubSerializers import IntClubsSerializer 
-from user.models import RelInterestClub
+from user.models import RelInterestClub, Clubs
 
-class InterestClubList(APIView):
-    def get(self, request, format=None):
-        intClubs = RelInterestClub.objects.all()
-        if intClubs.exists():
-            serializer = IntClubsSerializer(intClubs, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"Returned empty queryset"}, status=status.HTTP_404_NOT_FOUND) 
+class InterestClub(APIView):
 
-        
-
-    def post(self, request, format=None):
+    def post(self, request,pk, format=None):
+        intClub = get_object_or_404(Clubs, pk=pk)
+        print(intClub)
+        # if post.user.filter(username=request.user.username).exists():
+        # post.user.remove(request.user)    
+        # else:
+        # post.user.add(request.user)
         serializer = IntClubsSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
