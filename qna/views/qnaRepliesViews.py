@@ -4,7 +4,7 @@ from qna.serializers import qnaRepliesSerializers
 from django.shortcuts import render
 
 
-class QnaRepliesList(generics.ListAPIView): 
+class QnaRepliesList(generics.ListCreateAPIView): 
     serializer_class = qnaRepliesSerializers.QnaRepliesSerializer
     queryset = QnaReplies.objects.all()
     pk_url_kwarg = 'pk'
@@ -30,7 +30,7 @@ class QnaRepliesList(generics.ListAPIView):
             for item in qs:
                 if(item.is_secret == 1 and self.request.user != item.user):
                     print (item)
-                    item.qna_reply_content="비밀글입니다."
+                    item.qna_reply_content="비밀 글 입니다."
             return qs
 
 

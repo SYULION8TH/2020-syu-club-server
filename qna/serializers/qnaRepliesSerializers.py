@@ -7,7 +7,7 @@ class RecursiveSerializer(serializers.Serializer): #RecursiveSerializer
 		return serializer.data
 
 class QnaRepliesSerializer(serializers.ModelSerializer):
-    reply = serializers.SerializerMethodField()
+    reply = serializers.SerializerMethodField(read_only=True) 
 
     class Meta:
         model = QnaReplies
