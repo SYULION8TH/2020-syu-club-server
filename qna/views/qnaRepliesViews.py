@@ -13,7 +13,7 @@ class QnaRepliesList(generics.ListAPIView):
         # queryset = super().get_queryset()
         pk = self.kwargs.get(self.pk_url_kwarg)
         qs = super().get_queryset()
-        qs = qs.filter(question=pk)
+        qs = qs.filter(question = pk)
 
     # def get_queryset(self):
         # qs = super().get_queryset()
