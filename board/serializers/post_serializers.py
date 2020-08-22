@@ -7,24 +7,12 @@ from django.contrib.auth.models import AnonymousUser
 class PostsSerializer(serializers.ModelSerializer):
     likes = serializers.IntegerField(read_only = True)
     views = serializers.IntegerField(read_only = True)
-    class Meta:
-        model = Posts
-        Postsreplies = PostsRepliesSerializer
-        fields =  '__all__' 
-
-# 좋아요
-class PostsLikeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostsLike
-        fields = '__all__'
-
-class LikeSerializer(serializers.ModelSerializer):
-
     user_like = serializers.SerializerMethodField(read_only = True)
 
     class Meta:
         model = Posts
-        fields = '__all__'
+        Postsreplies = PostsRepliesSerializer
+        fields =  '__all__' 
 
     def get_user_like(self, instance):
         # 정보를 요청한 유저의 id를 가져온다.
@@ -38,6 +26,15 @@ class LikeSerializer(serializers.ModelSerializer):
             return True
         else:
             return False
+
+
+# 좋아요
+class PostsLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostsLike
+        fields = '__all__'
+
+
 
 
 

@@ -4,19 +4,17 @@ from rest_framework.views import APIView
 from rest_framework import viewsets, generics, mixins
 from rest_framework.response import Response
 from rest_framework import status
-<<<<<<< HEAD
-from club.serializers.clubSerializers import ClubsSerializer, PostSerializer,PostLikeSerializer, FamousClubSerializer, LikeSerializer
-# from club.serializers.intClubSerializers import LikeSerializer
-=======
-from club.serializers.clubSerializers import ClubsSerializer, FamousClubSerializer
->>>>>>> 88050042fb83a64a97087b7426de0e29263564de
+from club.serializers.clubSerializers import ClubsSerializer, FamousClubSerializer, LikeSerializer
 from user.models import Clubs, Posts, PostsLike
 from rest_framework.filters import SearchFilter
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
+<<<<<<< HEAD
 from django.db import connection
 from django.db.models import Count
 
+=======
+>>>>>>> d9e8b73b1283633b5112d87292cc52d46443d3c7
 
 class ClubfilterSet(FilterSet):
     class Meta:
