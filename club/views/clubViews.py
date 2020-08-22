@@ -9,6 +9,12 @@ from user.models import Clubs, Posts, PostsLike
 from rest_framework.filters import SearchFilter
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
+<<<<<<< HEAD
+from django.db import connection
+from django.db.models import Count
+
+=======
+>>>>>>> b5ec6d280798e50402d02d297a878ed4501df620
 
 class ClubfilterSet(FilterSet):
     class Meta:
@@ -49,6 +55,15 @@ class FamousClubList(mixins.ListModelMixin, generics.GenericAPIView):
                 ON TEMP.post_id = L.posts_id GROUP BY TEMP.club_id order by like_count desc')
     serializer_class = FamousClubSerializer
 
+<<<<<<< HEAD
+
+
+    
+
+           
+    
+=======
     def get(self, request, *args, **kwargs):
         # print(self.queryset)
         return self.list(request, *args, **kwargs)
+>>>>>>> b5ec6d280798e50402d02d297a878ed4501df620
