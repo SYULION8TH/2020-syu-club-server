@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'storages', # aws storage 이용을 위한 앱
 
     # 장고 drf_yasg url 매핑 패키지
-    # 'drf_yasg'
+    'drf_yasg',
     # 장고 rlsmd doqemf
     'user',
     'board',
@@ -222,12 +222,9 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = '%s/media' % AWS_S3_CUSTOM_DOMAIN
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_DIRS = [
     # 실제 static 파일은 모두 client 측에서 소유 
-    os.path.join(BASE_DIR, 'client/static'),
-    os.path.join(BASE_DIR, 'static')
-    
+    os.path.join(BASE_DIR, 'client/static'),    
 ]
 
 # allauth 설정
