@@ -1,4 +1,4 @@
-from user.models import Clubs, Posts, PostsLike
+from user.models import Clubs, Posts, PostsLike,RelInterestClub
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import AnonymousUser
@@ -21,7 +21,7 @@ class FamousClubSerializer(serializers.ModelSerializer):
 
 
 class LikeSerializer(serializers.ModelSerializer):
-
+    likes = serializers.IntegerField(read_only = True)
     user_like = serializers.SerializerMethodField()
 
     class Meta:
