@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.http import Http404
 from user.models import Posts, PostsLike
 from rest_framework import generics, viewsets, mixins, status
+from rest_framework.views import APIView
 #경로를 표시하기 위해서는 . 단일파일이 아닌 폴더 형태기 때문에 경로 표시 필수
 from board.serializers.post_serializers import PostsSerializer, PostsLikeSerializer
 #filter을 사용
@@ -35,19 +37,27 @@ class PostList(generics.ListCreateAPIView):
         # 필터가 적용된 쿼리셋을 리턴
         return qs
 
-
 # post detail
 class PostDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset = Posts.objects.all()
     serializer_class = PostsSerializer
 
-class PostsLikeGenerics(generics.CreateAPIView):
-    queryset = PostsLike.objects.all()
-    serializer_class = PostsLikeSerializer
+class PostsLikesAPIView(APIView):
 
-class PostsLikeGenerics(generics.DestroyAPIView):
-    queryset = PostsLike.objects.all()
-    serializer_class = PostsLikeSerializer
+    def get_object(self, pk):
+        try:
+            return Posts.objcets.get(pk=pk)
+        except Posts.DoesNotExist:
+            raise Http404
+    def get(self,request, pk, format = None):
+        like = self.get_object(pk=pk)
+        serializer = PostsLikeSerializer
+        return Response(serializer.data)
+    def delete(self,request,pk,format = None):
+        like = self.get_object(pk=pk)
+        like.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)#?
+
 
 class FamousPostsGenerics(mixins.ListModelMixin, generics.GenericAPIView):
     # 포스트의 like 수와 view 수를 센다.(Count 함수 이용) annotate를 통해 필드 추가

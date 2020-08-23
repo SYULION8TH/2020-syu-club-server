@@ -30,9 +30,11 @@ class PostsSerializer(serializers.ModelSerializer):
 
 # 좋아요
 class PostsLikeSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = PostsLike
         fields = '__all__'
+
 
 
 

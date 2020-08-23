@@ -9,9 +9,12 @@ from user.models import Clubs, Posts, PostsLike
 from rest_framework.filters import SearchFilter
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
+<<<<<<< HEAD
 from django.db import connection
 from django.db.models import Count
 
+=======
+>>>>>>> 6d2916a55be76ec9ad86db0f4a12da74d7f66adc
 
 class ClubfilterSet(FilterSet):
     class Meta:
@@ -25,7 +28,7 @@ class ClubsList(generics.GenericAPIView):
     search_fields = ['club_name', 'club_desc', 'established', 'club_type__club_type_name', 'club_type__club_type_desc']
     filterset_class = ClubfilterSet
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
 
         clubs = self.filter_queryset(self.get_queryset())
         if clubs.exists():

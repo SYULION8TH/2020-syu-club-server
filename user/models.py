@@ -263,7 +263,7 @@ class QnaReplies(models.Model):
     qna_reply_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(AuthUser, on_delete=models.CASCADE, blank=True, null=True)
     question = models.ForeignKey(ClubsQna, models.DO_NOTHING, blank=True, null=True)
-    parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True)
+    parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True, related_name='reply')
     qna_reply_content = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -277,8 +277,8 @@ class QnaReplies(models.Model):
 
 class RelInterestClub(models.Model):
     interest_club_id = models.AutoField(primary_key=True)
-    club = models.ForeignKey(Clubs, models.DO_NOTHING, null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, null=True, related_name='interest_club')
+    club = models.ForeignKey(Clubs, on_delete=models.CASCADE, null=True, related_name = 'like_user')
+    user = models.ForeignKey(User, on_delete=models.CASCADE , null=True, related_name='interest_club')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
