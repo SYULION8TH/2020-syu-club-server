@@ -20,7 +20,7 @@ class ClubfilterSet(FilterSet):
 
 class ClubsList(generics.GenericAPIView):
     queryset = Clubs.objects.all()
-    serializer_class = ClubsSerializer    
+    serializer_class = LikeSerializer    
     filter_backends = [DjangoFilterBackend, SearchFilter]
     search_fields = ['club_name', 'club_desc', 'established', 'club_type__club_type_name', 'club_type__club_type_desc']
     filterset_class = ClubfilterSet
