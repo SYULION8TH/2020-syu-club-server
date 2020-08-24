@@ -22,8 +22,16 @@ class QnaList(generics.ListCreateAPIView):
     serializer_class = qnaSerializers.QnaSerializer
     filterset_class = QnaFilter
     filter_backends = [DjangoFilterBackend]
+    pk_url_kwarg = 'club_id'
+
+    def get_queryset(self):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        qs = super().get_queryset()
+        qs = qs.filter(club = pk)
+
+        return qs
 
 class QnaDetail(generics.RetrieveUpdateDestroyAPIView):
     # queryset = ClubsQna.objects.all()
-    queryset = ClubsQna.objects.filter()
+    queryset = ClubsQna.objects.all()
     serializer_class = qnaSerializers.QnaSerializer
