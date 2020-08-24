@@ -23,7 +23,6 @@ class ClubsList(generics.ListAPIView):
     search_fields = ['club_name', 'club_desc', 'established', 'club_type__club_type_name', 'club_type__club_type_desc']
     filterset_class = ClubfilterSet
 
-
 class ClubDetail(APIView):
     def get_object(self, pk):
         try:
@@ -33,7 +32,7 @@ class ClubDetail(APIView):
 
     def get(self, request, pk, format=None):
         clubs_detail = self.get_object(pk)  
-        serializer = ClubsSerializer(clubs_detail)  
+        serializer = ClubsSerializer(clubs_detail)
         return Response(serializer.data)
 
 class FamousClubList(mixins.ListModelMixin, generics.GenericAPIView):
