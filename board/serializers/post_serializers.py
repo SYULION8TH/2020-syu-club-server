@@ -13,6 +13,7 @@ class PostsSerializer(serializers.ModelSerializer):
         model = Posts
         Postsreplies = PostsRepliesSerializer
         fields =  '__all__' 
+        read_only_fields = ['user', 'club', 'is_deleted']
 
     def get_user_like(self, instance):
         # 정보를 요청한 유저의 id를 가져온다.
@@ -21,7 +22,6 @@ class PostsSerializer(serializers.ModelSerializer):
         if type(user) == AnonymousUser:
             return False
         # 객체마다 유저가 like를 했는지 확인한다.
-        print(instance)
         if instance.like.filter(user = user).exists():
             return True
         else:

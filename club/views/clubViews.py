@@ -4,34 +4,30 @@ from rest_framework.views import APIView
 from rest_framework import viewsets, generics, mixins
 from rest_framework.response import Response
 from rest_framework import status
-from club.serializers.clubSerializers import ClubsSerializer, FamousClubSerializer, LikeSerializer
+from club.serializers.clubSerializers import ClubsSerializer, FamousClubSerializer
 from user.models import Clubs, Posts, PostsLike
 from rest_framework.filters import SearchFilter
 from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
-from django.db import connection
 from django.db.models import Count
-
 
 class ClubfilterSet(FilterSet):
     class Meta:
         model = Clubs
-        fields = {'club_name':['contains']}
+        fields = {'club_type__club_type_name':['exact']}
 
+<<<<<<< HEAD
 class ClubsList(generics.GenericAPIView):
     queryset = Clubs.objects.all()
     serializer_class = LikeSerializer    
+=======
+class ClubsList(generics.ListAPIView):
+    queryset = Clubs.objects.annotate(likes = Count('like_user')).all()
+    serializer_class = ClubsSerializer    
+>>>>>>> a08d0bd62e85431611b39afb9660536dc53e9fb6
     filter_backends = [DjangoFilterBackend, SearchFilter]
     search_fields = ['club_name', 'club_desc', 'established', 'club_type__club_type_name', 'club_type__club_type_desc']
     filterset_class = ClubfilterSet
-
-    def get(self, request, *args, **kwargs):
-
-        clubs = self.filter_queryset(self.get_queryset())
-        if clubs.exists():
-            serializer = self.serializer_class(clubs, many=True,context={'request': request})
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"Returned empty queryset"}, status=status.HTTP_404_NOT_FOUND)  
 
 
 class ClubDetail(APIView):
@@ -54,5 +50,4 @@ class FamousClubList(mixins.ListModelMixin, generics.GenericAPIView):
     serializer_class = FamousClubSerializer
 
     def get(self, request, *args, **kwargs):
-        # print(self.queryset)
         return self.list(request, *args, **kwargs)

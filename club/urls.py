@@ -10,6 +10,6 @@ urlpatterns = [
     path('clubs/<int:pk>/add', intClubViews.InterestClub.as_view()),
     path('int-clubs/<int:pk>', intClubViews.InterestClubDetail.as_view()),
     path('clubs/famous', clubViews.FamousClubList.as_view()),
-
 ]
+
 urlpatterns = format_suffix_patterns(urlpatterns)

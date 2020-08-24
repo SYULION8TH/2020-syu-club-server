@@ -17,7 +17,7 @@ class InterestClub(APIView):
             return Response("Please Login First.", status = status.HTTP_400_BAD_REQUEST)
         else:
             club_obj.user = self.request.user
-       
+
         club_obj.save()
         return Response('추가되었습니다.', status = status.HTTP_201_CREATED)
 
@@ -33,10 +33,3 @@ class InterestClubDetail(APIView):
         club = self.get_object(pk)
         club.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-    
-
-
-
-
-
