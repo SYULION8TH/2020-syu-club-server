@@ -10,6 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from rest_framework.filters import SearchFilter
 from django.db.models import Count
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 
 #filter(9-19) //genrics
@@ -42,6 +43,7 @@ class PostDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset = Posts.objects.annotate(likes= Count('like', distinct=True), views = Count('view', distinct=True)).all()
     serializer_class = PostsSerializer
 
+
 class PostsLikesAPIView(APIView):
 
     def get_object(self, pk):
@@ -49,15 +51,23 @@ class PostsLikesAPIView(APIView):
             return Posts.objcets.get(pk=pk)
         except Posts.DoesNotExist:
             raise Http404
-    def get(self,request, pk, format = None):
-        like = self.get_object(pk=pk)
-        serializer = PostsLikeSerializer
-        return Response(serializer.data)
+    # def get(self,request, pk, format = None):
+    #     post = self.get_object(pk=pk)
+    #     serializer = PostsLikeSerializer(like)
+    #     return Response(serializer.data)
+    def get(self, request, pk, format = None):
+        post = get_object_or_404(Posts, pk = pk)
+        post_like = PostsLike()
+        post_like.posts = post
+        post_like.user = request.user
+        # post_like.save()
+        temp = PostsLikeSerializer(post_like)
+        serializer = PostsLikeSerializer(data = temp.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status= status.HTTP_201_CREATED)
+        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
-    def delete(self,request,pk,format = None):
-        like = self.get_object(pk=pk)
-        like.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)#?
 
 
 class FamousPostsGenerics(generics.ListAPIView):

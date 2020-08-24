@@ -7,3 +7,4 @@ class QnaSerializer(serializers.ModelSerializer):
         model = ClubsQna
         QnaReplies = qnaRepliesSerializers
         fields = '__all__'
+        read_only_fields = ['created_at', 'user', 'is_deleted', 'club', 'updated_at']

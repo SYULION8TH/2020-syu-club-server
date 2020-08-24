@@ -16,19 +16,12 @@ class ClubfilterSet(FilterSet):
         model = Clubs
         fields = {'club_type__club_type_name':['exact']}
 
-<<<<<<< HEAD
-class ClubsList(generics.GenericAPIView):
-    queryset = Clubs.objects.all()
-    serializer_class = LikeSerializer    
-=======
 class ClubsList(generics.ListAPIView):
     queryset = Clubs.objects.annotate(likes = Count('like_user')).all()
     serializer_class = ClubsSerializer    
->>>>>>> a08d0bd62e85431611b39afb9660536dc53e9fb6
     filter_backends = [DjangoFilterBackend, SearchFilter]
     search_fields = ['club_name', 'club_desc', 'established', 'club_type__club_type_name', 'club_type__club_type_desc']
     filterset_class = ClubfilterSet
-
 
 class ClubDetail(APIView):
     def get_object(self, pk):
@@ -39,7 +32,7 @@ class ClubDetail(APIView):
 
     def get(self, request, pk, format=None):
         clubs_detail = self.get_object(pk)  
-        serializer = ClubsSerializer(clubs_detail)  
+        serializer = ClubsSerializer(clubs_detail)
         return Response(serializer.data)
 
 class FamousClubList(mixins.ListModelMixin, generics.GenericAPIView):
