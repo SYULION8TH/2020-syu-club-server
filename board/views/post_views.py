@@ -10,6 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from rest_framework.filters import SearchFilter
 from django.db.models import Count
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 
 #filter(9-19) //genrics
@@ -22,8 +23,6 @@ class PostFilter(FilterSet):
 class PostList(generics.ListCreateAPIView):
     queryset = Posts.objects.annotate(likes= Count('like', distinct=True), views = Count('view', distinct=True)).all()
     serializer_class = PostsSerializer
-    # serializer_class = LikeSerializer
-    # filter_class = PostFilter
     filterset_class = PostFilter
     # 필터 셋에 search filter 추가
     filter_backends = [DjangoFilterBackend, SearchFilter]
@@ -34,13 +33,16 @@ class PostList(generics.ListCreateAPIView):
     def get_queryset(self):
         # 게시물 전부를 불러와 필터를 적용
         qs = self.filter_queryset(super().get_queryset())
+        pk = self.kwargs.get('pk')
+        qs = qs.filter(pk=pk)
         # 필터가 적용된 쿼리셋을 리턴
         return qs
 
 # post detail
 class PostDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Posts.objects.all()
+    queryset = Posts.objects.annotate(likes= Count('like', distinct=True), views = Count('view', distinct=True)).all()
     serializer_class = PostsSerializer
+
 
 class PostsLikesAPIView(APIView):
 
@@ -49,17 +51,26 @@ class PostsLikesAPIView(APIView):
             return Posts.objcets.get(pk=pk)
         except Posts.DoesNotExist:
             raise Http404
-    def get(self,request, pk, format = None):
-        like = self.get_object(pk=pk)
-        serializer = PostsLikeSerializer
-        return Response(serializer.data)
-    def delete(self,request,pk,format = None):
-        like = self.get_object(pk=pk)
-        like.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)#?
+    # def get(self,request, pk, format = None):
+    #     post = self.get_object(pk=pk)
+    #     serializer = PostsLikeSerializer(like)
+    #     return Response(serializer.data)
+    def get(self, request, pk, format = None):
+        post = get_object_or_404(Posts, pk = pk)
+        post_like = PostsLike()
+        post_like.posts = post
+        post_like.user = request.user
+        # post_like.save()
+        temp = PostsLikeSerializer(post_like)
+        serializer = PostsLikeSerializer(data = temp.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status= status.HTTP_201_CREATED)
+        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
 
-class FamousPostsGenerics(mixins.ListModelMixin, generics.GenericAPIView):
+
+class FamousPostsGenerics(generics.ListAPIView):
     # 포스트의 like 수와 view 수를 센다.(Count 함수 이용) annotate를 통해 필드 추가
     queryset = Posts.objects.annotate(likes= Count('like', distinct=True), views = Count('view', distinct=True)).all()
     serializer_class = PostsSerializer
@@ -82,8 +93,5 @@ class FamousPostsGenerics(mixins.ListModelMixin, generics.GenericAPIView):
             # 일반적으로는 like 카운트 수의 내림차순 정렬
             qs = qs.order_by('-likes')
         return qs
-    # method가 get일 때 호출되는 함수
-    def get(self, request, *args, **kargs):
-        # mixins 상속으로 손쉽게 리스트 구현
-        return self.list(self, request, *args, **kargs)
+
 

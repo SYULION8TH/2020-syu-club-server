@@ -13,6 +13,7 @@ class PostsRepliesSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostsReplies
         fields = '__all__'
+        read_only_fields= ['user', 'post', 'is_deleted']
 
     def get_reply(self, instance):
         #self.__class__로 직렬화

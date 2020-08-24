@@ -119,7 +119,7 @@ class Clubs(models.Model):
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     club_type = models.ForeignKey(ClubTypes, models.DO_NOTHING, null=True)
     club_img_url = models.ImageField(upload_to="%Y/%m/%d", null=True)
-    club_logo_url = models.CharField(max_length=1000, blank=True, null=True)
+    club_logo_url = models.ImageField(upload_to="%Y/%m/%d", null=True)
     established = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -136,7 +136,7 @@ class ClubsMember(models.Model):
     club_member_id = models.AutoField(primary_key=True)
     club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
     club_member_name = models.CharField(max_length=200, blank=True, null=True)
-    club_member_img_url = models.CharField(max_length=1000, blank=True, null=True)
+    club_member_img_url = models.ImageField(upload_to="%Y/%m/%d", null=True)
     club_member_position = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
@@ -150,8 +150,8 @@ class ClubsQna(models.Model):
     question_content = models.CharField(max_length=3000, blank=True, null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.IntegerField(default=0)
 
     class Meta:
@@ -217,7 +217,7 @@ class Posts(models.Model):
     post_title = models.CharField(max_length=150)
     post_content = models.CharField(max_length=3000)
     post_introduce = models.CharField(max_length=200, blank=True, null=True)
-    post_img_url = models.CharField(max_length=1500, blank=True, null=True)
+    post_img_url = models.ImageField(upload_to="%Y/%m/%d", null=True)
     user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -338,7 +338,7 @@ class SocialaccountSocialtoken(models.Model):
 
 class UsersAdditionalInfo(models.Model):
     user_info = models.OneToOneField(User, models.DO_NOTHING, primary_key=True)
-    profile = models.CharField(max_length=5000, null=True)
+    profile = models.ImageField(upload_to="%Y/%m/%d", null=True)
     name = models.CharField(max_length = 45)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

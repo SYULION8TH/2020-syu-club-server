@@ -9,13 +9,10 @@ class QnaRepliesList(generics.ListCreateAPIView):
     pk_url_kwarg = 'pk'
 
     def get_queryset(self):
-        # queryset = super().get_queryset()
         pk = self.kwargs.get(self.pk_url_kwarg)
         qs = super().get_queryset()
         qs = qs.filter(question=pk)
 
-    # def get_queryset(self):
-        # qs = super().get_queryset()
 
             # 1. 글 pk에 연관된 qna만 가져오기
             # 2. 로그인 한 내가, 관리자인지 알아보기
