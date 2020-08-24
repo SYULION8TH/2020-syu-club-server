@@ -5,9 +5,15 @@ from board.views import post_views, post_replies_views, post_view_views
 from board.serializers import post_serializers, post_replies_serializers
 
 urlpatterns = [
+<<<<<<< HEAD
+    path('posts/', post_views.PostList.as_view()), #게시물 목록
+    path('club/<int:pk>/posts',post_views.PostList.as_view()),#동아리별 게시물 목록
+    path('posts/<int:pk>', post_views.PostDetailGenerics.as_view()), #게시물 상세보기
+=======
     path('posts', post_views.PostList.as_view()), #게시물 목록
     path('clubs/<int:pk>/posts',post_views.PostList.as_view()),#동아리별 게시물 목록
     path('clubs/<int:club_id>/posts/<int:pk>', post_views.PostDetailGenerics.as_view()), #게시물 상세보기
+>>>>>>> a08d0bd62e85431611b39afb9660536dc53e9fb6
     path('posts/<int:pk>/replies', post_replies_views.PostsRepliesList.as_view()),
     path('posts/<int:pk>/view', post_view_views.PostsViewAPIView.as_view()),
     path('posts/famous', post_views.FamousPostsGenerics.as_view()),
