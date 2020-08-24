@@ -8,11 +8,12 @@ class RecursiveSerializer(serializers.Serializer):
 		return serializer.data
 
 class PostsRepliesSerializer(serializers.ModelSerializer): 
-    reply = serializers.SerializerMethodField()
+    reply = serializers.SerializerMethodField(read_only= True)
 
     class Meta:
         model = PostsReplies
         fields = '__all__'
+        read_only_fields= ['user', 'post', 'is_deleted']
 
     def get_reply(self, instance):
         #self.__class__로 직렬화

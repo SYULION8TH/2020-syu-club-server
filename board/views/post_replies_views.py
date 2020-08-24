@@ -7,5 +7,12 @@ class PostsRepliesList(generics.ListCreateAPIView): # 댓글
     serializer_class = PostsRepliesSerializer
     queryset = PostsReplies.objects.filter(parent_reply=None)
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        pk = self.kwargs.get('pk')
+        qs = qs.filter(post=pk)
+
+        return qs
+
 class PostsRepliesDetailGenerics(generics.RetrieveUpdateDestroyAPIView): 
     queryset = PostsReplies.objects.filter 

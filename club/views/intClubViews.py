@@ -1,27 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
-from club.serializers.intClubSerializers import IntClubsSerializer 
-from user.models import RelInterestClub
+from club.serializers.intClubSerializers import IntClubsSerializer
+from user.models import RelInterestClub, Clubs
+from django.contrib.auth.models import AnonymousUser
 
-class InterestClubList(APIView):
-    def get(self, request, format=None):
-        intClubs = RelInterestClub.objects.all()
-        if intClubs.exists():
-            serializer = IntClubsSerializer(intClubs, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"Returned empty queryset"}, status=status.HTTP_404_NOT_FOUND) 
+class InterestClub(APIView):
+    def get(self,request, pk):    
+        club_obj = RelInterestClub()     
+        club_obj.club = get_object_or_404(Clubs, pk = pk)
+        if type(request.user) == AnonymousUser:
+            club_obj.user = None
+            return Response("Please Login First.", status = status.HTTP_400_BAD_REQUEST)
+        else:
+            club_obj.user = self.request.user
 
-        
-
-    def post(self, request, format=None):
-        serializer = IntClubsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)      
+        club_obj.save()
+        return Response('추가되었습니다.', status = status.HTTP_201_CREATED)
 
 
 class InterestClubDetail(APIView):
@@ -35,10 +33,3 @@ class InterestClubDetail(APIView):
         club = self.get_object(pk)
         club.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-    
-
-
-
-
-

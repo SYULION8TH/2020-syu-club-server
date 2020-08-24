@@ -1,0 +1,1 @@
+SELECT TEMP.club_id, COUNT(L.posts_like_id) as like_count FROM (SELECT C.club_id AS club_id, P.post_id as post_id, C.club_name AS club_name FROM clubs as C LEFT JOIN posts as P ON C.club_id = P.club_id) TEMP LEFT JOIN posts_like AS L ON TEMP.post_id = L.posts_id GROUP BY TEMP.club_id order by like_count desc;
