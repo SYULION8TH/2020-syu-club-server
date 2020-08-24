@@ -53,6 +53,7 @@ class PostsLikesAPIView(APIView):
         like = self.get_object(pk=pk)
         serializer = PostsLikeSerializer
         return Response(serializer.data)
+
     def delete(self,request,pk,format = None):
         like = self.get_object(pk=pk)
         like.delete()
@@ -86,4 +87,3 @@ class FamousPostsGenerics(mixins.ListModelMixin, generics.GenericAPIView):
     def get(self, request, *args, **kargs):
         # mixins 상속으로 손쉽게 리스트 구현
         return self.list(self, request, *args, **kargs)
-

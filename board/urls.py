@@ -12,6 +12,7 @@ urlpatterns = [
     path('posts/<int:pk>/view', post_view_views.PostsViewAPIView.as_view()),
     path('posts/famous', post_views.FamousPostsGenerics.as_view()),
     path('posts/<int:pk>/likes',post_views.PostsLikesAPIView.as_view())
+
 ]
 
 
