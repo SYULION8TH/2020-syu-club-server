@@ -5,7 +5,7 @@ from board.views import post_views, post_replies_views, post_view_views
 from board.serializers import post_serializers, post_replies_serializers
 
 urlpatterns = [
-    path('posts', post_views.PostList.as_view()), #게시물 목록
+    path('posts/', post_views.PostList.as_view()), #게시물 목록
     path('club/<int:pk>/posts',post_views.PostList.as_view()),#동아리별 게시물 목록
     path('posts/<int:pk>', post_views.PostDetailGenerics.as_view()), #게시물 상세보기
     path('posts/<int:pk>/replies', post_replies_views.PostsRepliesList.as_view()),
@@ -14,11 +14,5 @@ urlpatterns = [
     path('posts/<int:pk>/likes',post_views.PostsLikesAPIView.as_view())
 
 ]
-
-
-
-
-    
-
 
 # urlpatterns = format_suffix_patter
