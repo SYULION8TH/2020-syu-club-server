@@ -9,8 +9,8 @@ from user.models import RelInterestClub, Clubs
 from django.contrib.auth.models import AnonymousUser
 
 class InterestClub(APIView):
-    def get(self,request, pk):    
-        club_obj = RelInterestClub()     
+    def get(self,request, pk):
+        club_obj = RelInterestClub()
         club_obj.club = get_object_or_404(Clubs, pk = pk)
         if type(request.user) == AnonymousUser:
             club_obj.user = None
