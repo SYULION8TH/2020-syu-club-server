@@ -36,9 +36,5 @@ class QnaList(generics.ListCreateAPIView):
         serializer.save(user = self.request.user, club = club)
 
 class QnaDetail(generics.RetrieveUpdateDestroyAPIView):
-<<<<<<< HEAD
-    # queryset = ClubsQna.objects.all()
-=======
->>>>>>> aaf47a07bcdad59fa6f04cf88008e6aa9b979a47
     queryset = ClubsQna.objects.all()
     serializer_class = qnaSerializers.QnaSerializer
