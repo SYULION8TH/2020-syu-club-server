@@ -43,6 +43,8 @@ class PostDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset = Posts.objects.annotate(likes= Count('like', distinct=True), views = Count('view', distinct=True)).all()
     serializer_class = PostsSerializer
 
+    
+
 
 class PostsLikesAPIView(APIView):
 

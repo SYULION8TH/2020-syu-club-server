@@ -224,6 +224,9 @@ class Posts(models.Model):
     is_deleted = models.IntegerField(default=0)  # This field type is a guess.
     club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True, related_name='club_posts')
 
+    def __str__(self):
+        return self.post_title
+
     class Meta:
         managed = False
         db_table = 'posts'
@@ -354,7 +357,7 @@ class PostsLike(models.Model):
     posts = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name='like')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     class Meta:
         managed = False
         db_table = 'posts_like'
