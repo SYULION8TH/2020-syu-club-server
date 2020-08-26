@@ -6,9 +6,31 @@ from django.contrib.auth.models import AnonymousUser
 
 class ClubsSerializer(serializers.ModelSerializer):
     club_type = serializers.CharField(source = 'club_type.club_type_name')
+    club_type_desc = serializers.CharField(source = 'club_type.club_type_desc')
+    class Meta:
+        model = Clubs
+        fields = ['club_id','club_name','club_desc','club_type','club_img_url','club_logo_url','established', 'club_type_desc']
+
+class FamousClubSerializer(serializers.ModelSerializer):
+    like_count = serializers.IntegerField()
+
+    class Meta:
+        model = Clubs
+        fields = '__all__'
+
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    
+    user_like = serializers.SerializerMethodField()
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> e287447ddc5894cc4ef17ea980a33cd166c3ba74
     club_type_desc = serializers.CharField(source = 'club_type.club_type_desc', read_only = True)
     likes = serializers.IntegerField(read_only = True)
     user_like = serializers.SerializerMethodField(read_only = True)
+>>>>>>> 575e798f2872cf6fbd63be128101b5bf5b8001ce
 
     class Meta:
         model = Clubs
@@ -23,7 +45,17 @@ class ClubsSerializer(serializers.ModelSerializer):
         if type(user) == AnonymousUser:
             return False
         # 객체마다 유저가 like를 했는지 확인한다.
+<<<<<<< HEAD
+        print(instance)
+        if instance.like.filter(user = user).exists():
+=======
+<<<<<<< HEAD
+       # print(instance)
+       # if instance.like.filter(user = user).exists():
+=======
+>>>>>>> e287447ddc5894cc4ef17ea980a33cd166c3ba74
         if instance.like_user.filter(user = user).exists():
+>>>>>>> 575e798f2872cf6fbd63be128101b5bf5b8001ce
             return True
         else:
             return False
