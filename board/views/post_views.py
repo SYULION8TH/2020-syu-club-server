@@ -43,13 +43,10 @@ class PostDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset = Posts.objects.annotate(likes= Count('like', distinct=True), views = Count('view', distinct=True)).all()
     serializer_class = PostsSerializer
 
-<<<<<<< HEAD
 # 좋아요
-=======
     
 
 
->>>>>>> e287447ddc5894cc4ef17ea980a33cd166c3ba74
 class PostsLikesAPIView(APIView):
 
     def get_object(self, pk):
@@ -69,7 +66,7 @@ class PostsLikesAPIView(APIView):
         # post가 있을때
         if post.exists():
 	#un_like : true->false 좋아요 o 좋아요 삭제  false->true 좋아요 x  객체 생성 후 반환
-            post_like = PostLike()
+            post_like = PostsLike()
             post_like.posts = post
             like , un_like = post.like.get_or_create(user = request.user)
             if not un_like:
