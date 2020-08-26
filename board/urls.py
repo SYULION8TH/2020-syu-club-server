@@ -8,10 +8,15 @@ urlpatterns = [
     path('posts', post_views.PostList.as_view()), #게시물 목록
     path('clubs/<int:pk>/posts',post_views.PostList.as_view()),#동아리별 게시물 목록
     path('clubs/<int:club_id>/posts/<int:pk>', post_views.PostDetailGenerics.as_view()), #게시물 상세보기
+<<<<<<< HEAD
+=======
+>>>>>>> e287447ddc5894cc4ef17ea980a33cd166c3ba74
+>>>>>>> 575e798f2872cf6fbd63be128101b5bf5b8001ce
     path('posts/<int:pk>/replies', post_replies_views.PostsRepliesList.as_view()),
     path('posts/<int:pk>/view', post_view_views.PostsViewAPIView.as_view()),
     path('posts/famous', post_views.FamousPostsGenerics.as_view()),
     path('posts/<int:pk>/likes',post_views.PostsLikesAPIView.as_view())
+
 ]
 
 # urlpatterns = format_suffix_patter

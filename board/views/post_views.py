@@ -10,6 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from rest_framework.filters import SearchFilter
 from django.db.models import Count
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 
 #filter(9-19) //genrics
@@ -42,6 +43,13 @@ class PostDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset = Posts.objects.annotate(likes= Count('like', distinct=True), views = Count('view', distinct=True)).all()
     serializer_class = PostsSerializer
 
+<<<<<<< HEAD
+# 좋아요
+=======
+    
+
+
+>>>>>>> e287447ddc5894cc4ef17ea980a33cd166c3ba74
 class PostsLikesAPIView(APIView):
 
     def get_object(self, pk):
@@ -49,14 +57,37 @@ class PostsLikesAPIView(APIView):
             return Posts.objcets.get(pk=pk)
         except Posts.DoesNotExist:
             raise Http404
-    def get(self,request, pk, format = None):
-        like = self.get_object(pk=pk)
-        serializer = PostsLikeSerializer
-        return Response(serializer.data)
-    def delete(self,request,pk,format = None):
-        like = self.get_object(pk=pk)
-        like.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)#?
+    # def get(self,request, pk, format = None):
+    #     post = self.get_object(pk=pk)
+    #     serializer = PostsLikeSerializer(like)
+    #     return Response(serializer.data)
+    def get(self, request, pk, format = None):
+        # 로그인을 안했으면 401 에러를 발생시킨다. 
+        if not request.user.is_authenticated:
+            return Response("Please Login First", status = status.HTTP_401_UNAUTHORIZED)
+        post = get_object_or_404(Posts, pk = pk)
+        # post가 있을때
+        if post.exists():
+	#un_like : true->false 좋아요 o 좋아요 삭제  false->true 좋아요 x  객체 생성 후 반환
+            post_like = PostLike()
+            post_like.posts = post
+            like , un_like = post.like.get_or_create(user = request.user)
+            if not un_like:
+                like.delete()        
+            else:
+	#true를 반환
+                return like
+            post_like.save()
+            serializer = PostsLikeSerializer(post_like)
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
+        # post가 없을때
+        else:
+            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+        temp = PostsLikeSerializer(post_like)
+        serializer = PostsLikeSerializer(data = temp.data)
+
+
+
 
 
 class FamousPostsGenerics(generics.ListAPIView):
@@ -82,5 +113,7 @@ class FamousPostsGenerics(generics.ListAPIView):
             # 일반적으로는 like 카운트 수의 내림차순 정렬
             qs = qs.order_by('-likes')
         return qs
-
-
+    # method가 get일 때 호출되는 함수
+    def get(self, request, *args, **kargs):
+        # mixins 상속으로 손쉽게 리스트 구현
+        return self.list(self, request, *args, **kargs)

@@ -11,9 +11,8 @@ class PostsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Posts
-        Postsreplies = PostsRepliesSerializer
         fields =  '__all__' 
-        read_only_fields = ['user', 'club', 'is_deleted']
+        # read_only_fields = ['user', 'club', 'is_deleted']
 
     def get_user_like(self, instance):
         # 정보를 요청한 유저의 id를 가져온다.
