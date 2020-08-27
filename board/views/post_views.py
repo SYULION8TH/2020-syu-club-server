@@ -43,13 +43,7 @@ class PostDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset = Posts.objects.annotate(likes= Count('like', distinct=True), views = Count('view', distinct=True)).all()
     serializer_class = PostsSerializer
 
-<<<<<<< HEAD
 # 좋아요
-=======
-    
-
-
->>>>>>> e287447ddc5894cc4ef17ea980a33cd166c3ba74
 class PostsLikesAPIView(APIView):
 
     def get_object(self, pk):
@@ -65,18 +59,23 @@ class PostsLikesAPIView(APIView):
         # 로그인을 안했으면 401 에러를 발생시킨다. 
         if not request.user.is_authenticated:
             return Response("Please Login First", status = status.HTTP_401_UNAUTHORIZED)
+	#post라는 객체 정의해서 posts models에 pk(primary key)르 가져옴
         post = get_object_or_404(Posts, pk = pk)
         # post가 있을때
         if post.exists():
-	#un_like : true->false 좋아요 o 좋아요 삭제  false->true 좋아요 x  객체 생성 후 반환
-            post_like = PostLike()
+	#models를 가져옴
+            post_like = PostsLike()
+	        #pk를 post_like.posts에 정의
             post_like.posts = post
-            like , un_like = post.like.get_or_create(user = request.user)
-            if not un_like:
-                like.delete()        
+	        # 요청받는 유저를 post_like.user에 정의
+            post_like.user = request.user
+            #좋아요가 이미 있을때 -> like.delete()/
+            if post.like.filter(user = request.user).exists():
+                post.like.remove(post_like.user)
+	# 좋아요가 없을 때 create
             else:
-	#true를 반환
-                return like
+                post.like.add(post_like.user)
+                return post_like
             post_like.save()
             serializer = PostsLikeSerializer(post_like)
             return Response(serializer.data, status = status.HTTP_201_CREATED)

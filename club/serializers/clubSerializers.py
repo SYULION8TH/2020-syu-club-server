@@ -6,7 +6,6 @@ from django.contrib.auth.models import AnonymousUser
 
 class ClubsSerializer(serializers.ModelSerializer):
     club_type = serializers.CharField(source = 'club_type.club_type_name')
-<<<<<<< HEAD
     club_type_desc = serializers.CharField(source = 'club_type.club_type_desc')
     class Meta:
         model = Clubs
@@ -24,8 +23,6 @@ class FamousClubSerializer(serializers.ModelSerializer):
 class LikeSerializer(serializers.ModelSerializer):
     
     user_like = serializers.SerializerMethodField()
-=======
->>>>>>> e287447ddc5894cc4ef17ea980a33cd166c3ba74
     club_type_desc = serializers.CharField(source = 'club_type.club_type_desc', read_only = True)
     likes = serializers.IntegerField(read_only = True)
     user_like = serializers.SerializerMethodField(read_only = True)
@@ -43,11 +40,8 @@ class LikeSerializer(serializers.ModelSerializer):
         if type(user) == AnonymousUser:
             return False
         # 객체마다 유저가 like를 했는지 확인한다.
-<<<<<<< HEAD
        # print(instance)
        # if instance.like.filter(user = user).exists():
-=======
->>>>>>> e287447ddc5894cc4ef17ea980a33cd166c3ba74
         if instance.like_user.filter(user = user).exists():
             return True
         else:
