@@ -34,6 +34,8 @@ class PostList(generics.ListCreateAPIView):
         # 게시물 전부를 불러와 필터를 적용
         qs = self.filter_queryset(super().get_queryset())
         pk = self.kwargs.get('pk')
+        if pk == None:
+            return qs
         qs = qs.filter(pk=pk)
         # 필터가 적용된 쿼리셋을 리턴
         return qs
