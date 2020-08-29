@@ -34,5 +34,3 @@ class FamousClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Clubs
         fields = '__all__'
-
-

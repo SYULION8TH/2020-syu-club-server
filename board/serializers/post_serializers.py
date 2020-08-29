@@ -1,18 +1,20 @@
-from user.models import Posts, PostsLike, PostsReplies
+from user.models import Posts, PostsLike, PostsReplies, Clubs
 from rest_framework import serializers
 from board.serializers.post_replies_serializers import PostsRepliesSerializer
 from django.contrib.auth.models import AnonymousUser
-
+from club.serializers.clubSerializers import ClubsSerializer
 
 class PostsSerializer(serializers.ModelSerializer):
     likes = serializers.IntegerField(read_only = True)
     views = serializers.IntegerField(read_only = True)
     user_like = serializers.SerializerMethodField(read_only = True)
+    club_name = serializers.CharField(source='club.club_name')
 
     class Meta:
         model = Posts
-        fields =  '__all__' 
-        # read_only_fields = ['user', 'club', 'is_deleted']
+        fields = '__all__'
+        read_only_fields = ['user', 'club', 'is_deleted']
+
 
     def get_user_like(self, instance):
         # 정보를 요청한 유저의 id를 가져온다.
@@ -25,7 +27,6 @@ class PostsSerializer(serializers.ModelSerializer):
             return True
         else:
             return False
-
 
 # 좋아요
 class PostsLikeSerializer(serializers.ModelSerializer):

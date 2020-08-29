@@ -224,6 +224,9 @@ class Posts(models.Model):
     is_deleted = models.IntegerField(default=0)  # This field type is a guess.
     club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True, related_name='club_posts')
 
+    def __str__(self):
+        return self.post_title
+
     class Meta:
         managed = False
         db_table = 'posts'
@@ -261,7 +264,7 @@ class PostsViews(models.Model):
 
 class QnaReplies(models.Model):
     qna_reply_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     question = models.ForeignKey(ClubsQna, models.DO_NOTHING, blank=True, null=True)
     parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True, related_name='reply')
     qna_reply_content = models.CharField(max_length=500, blank=True, null=True)
@@ -354,7 +357,7 @@ class PostsLike(models.Model):
     posts = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name='like')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     class Meta:
         managed = False
         db_table = 'posts_like'

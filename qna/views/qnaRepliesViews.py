@@ -1,6 +1,7 @@
 from rest_framework import generics, viewsets
-from user.models import QnaReplies
+from user.models import QnaReplies, ClubsQna, Clubs
 from qna.serializers import qnaRepliesSerializers
+from django.shortcuts import get_object_or_404
 
 
 class QnaRepliesList(generics.ListCreateAPIView): 
@@ -12,6 +13,11 @@ class QnaRepliesList(generics.ListCreateAPIView):
         pk = self.kwargs.get(self.pk_url_kwarg)
         qs = super().get_queryset()
         qs = qs.filter(question=pk)
+
+    # def perform_create(self, serializer):
+    #     pk = self.kwargs.get('pk')
+    #     club = get_object_or_404(ClubsQna, pk=pk)
+    #     serializer.save(user = self.request.user, club = club)
 
 
             # 1. 글 pk에 연관된 qna만 가져오기
@@ -28,5 +34,11 @@ class QnaRepliesList(generics.ListCreateAPIView):
                     print (item)
                     item.qna_reply_content="비밀 글 입니다."
             return qs
+
+    def perform_create(self, serializer):
+        pk = self.kwargs.get('pk')
+        question = get_object_or_404(ClubsQna, pk=pk)
+        # serializer.save(user = self.request.user, question=question)
+        serializer.save(user=self.request.user, question=question)
 
 
