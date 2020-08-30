@@ -27,7 +27,7 @@ class PostList(generics.ListCreateAPIView):
     # 필터 셋에 search filter 추가
     filter_backends = [DjangoFilterBackend, SearchFilter]
     # 검색할 필드들 등록
-    search_fields = ['post_title', 'post_content', 'post_introduce', 'user__username', 'created_at']
+    search_fields = ['post_title', 'post_content', 'post_introduce', 'user__username']
 
     # 쿼리 셋을 조작하기 위한 메소드
     def get_queryset(self):
@@ -86,10 +86,6 @@ class PostsLikesAPIView(APIView):
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
         temp = PostsLikeSerializer(post_like)
         serializer = PostsLikeSerializer(data = temp.data)
-
-
-
-
 
 class FamousPostsGenerics(generics.ListAPIView):
     # 포스트의 like 수와 view 수를 센다.(Count 함수 이용) annotate를 통해 필드 추가
