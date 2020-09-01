@@ -108,7 +108,7 @@ class ClubTypes(models.Model):
     updated_at = models.DateTimeField()
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'club_types'
 
 
@@ -128,7 +128,7 @@ class Clubs(models.Model):
         return self.club_name
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'clubs'
 
 
@@ -140,7 +140,7 @@ class ClubsMember(models.Model):
     club_member_position = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'clubs_member'
 
 
@@ -155,7 +155,7 @@ class ClubsQna(models.Model):
     is_deleted = models.IntegerField(default=0)
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'clubs_qna'
 
 
@@ -228,7 +228,7 @@ class Posts(models.Model):
         return self.post_title
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'posts'
 
 
@@ -243,7 +243,7 @@ class PostsReplies(models.Model):
     is_deleted = models.IntegerField(default=0) 
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'posts_replies'
 
 
@@ -258,7 +258,7 @@ class PostsViews(models.Model):
         return str(self.checked_at)
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'posts_views'
 
 
@@ -274,7 +274,7 @@ class QnaReplies(models.Model):
     is_secret = models.IntegerField(default=0)
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'qna_replies'
 
 
@@ -286,7 +286,7 @@ class RelInterestClub(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'rel_interest_club'
 
 
@@ -347,7 +347,7 @@ class UsersAdditionalInfo(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'users_additional_info'
 
 
