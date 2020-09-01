@@ -15,7 +15,7 @@ class InfoGenerics(APIView):
         user = get_object_or_404(User, pk=self.request.user.id)
         serializer = InfoSerializer(user)
         if user.is_superuser == True:
-            return Response({"superuser": serializer.data}, status = status.HTTP_200_OK)
+            return Response({"user": serializer.data}, status = status.HTTP_200_OK)
         social_serializer = AdditionalInfoSerializer(user.usersadditionalinfo)
         return Response({
             "user": serializer.data,

@@ -27,7 +27,7 @@ class PostList(generics.ListCreateAPIView):
     # 필터 셋에 search filter 추가
     filter_backends = [DjangoFilterBackend, SearchFilter]
     # 검색할 필드들 등록
-    search_fields = ['post_title', 'post_content', 'post_introduce', 'user__username', 'created_at']
+    search_fields = ['post_title', 'post_content', 'post_introduce', 'user__username']
 
     # 쿼리 셋을 조작하기 위한 메소드
     def get_queryset(self):
@@ -50,46 +50,41 @@ class PostsLikesAPIView(APIView):
 
     def get_object(self, pk):
         try:
-            return Posts.objcets.get(pk=pk)
+            return Posts.objects.get(pk=pk)
         except Posts.DoesNotExist:
             raise Http404
-    # def get(self,request, pk, format = None):
-    #     post = self.get_object(pk=pk)
-    #     serializer = PostsLikeSerializer(like)
-    #     return Response(serializer.data)
+
     def get(self, request, pk, format = None):
         # 로그인을 안했으면 401 에러를 발생시킨다. 
         if not request.user.is_authenticated:
             return Response("Please Login First", status = status.HTTP_401_UNAUTHORIZED)
 	#post라는 객체 정의해서 posts models에 pk(primary key)르 가져옴
-        post = get_object_or_404(Posts, pk = pk)
+        # post = get_object_or_404(Posts, pk = pk)
+        post = Posts.objects.filter(pk=pk)
         # post가 있을때
         if post.exists():
 	#models를 가져옴
             post_like = PostsLike()
 	        #pk를 post_like.posts에 정의
-            post_like.posts = post
+            post_like.posts = post[0]
 	        # 요청받는 유저를 post_like.user에 정의
             post_like.user = request.user
-            #좋아요가 이미 있을때 -> like.delete()/
-            if post.like.filter(user = request.user).exists():
-                post.like.remove(post_like.user)
+            #좋아요가 이미 있을때 -> like.delete()
+            if post[0].like.filter(user = request.user).exists():
+                # post[0].like.remove(request.user)
+                post[0].like.filter(user=request.user).delete()
 	# 좋아요가 없을 때 create
             else:
-                post.like.add(post_like.user)
+                post[0].like.add(post_like.user)
                 return post_like
             post_like.save()
             serializer = PostsLikeSerializer(post_like)
             return Response(serializer.data, status = status.HTTP_201_CREATED)
         # post가 없을때
         else:
-            return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status = status.HTTP_404_NOT_FOUND)
         temp = PostsLikeSerializer(post_like)
         serializer = PostsLikeSerializer(data = temp.data)
-
-
-
-
 
 class FamousPostsGenerics(generics.ListAPIView):
     # 포스트의 like 수와 view 수를 센다.(Count 함수 이용) annotate를 통해 필드 추가
