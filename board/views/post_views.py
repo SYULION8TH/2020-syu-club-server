@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
-from user.models import Posts, PostsLike
+from user.models import Posts, PostsLike, PostsViews
 from rest_framework import generics, viewsets, mixins, status
 from rest_framework.views import APIView
 #경로를 표시하기 위해서는 . 단일파일이 아닌 폴더 형태기 때문에 경로 표시 필수
@@ -11,6 +11,7 @@ from rest_framework.filters import SearchFilter
 from django.db.models import Count
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from datetime import datetime, timedelta
 
 
 #filter(9-19) //genrics
@@ -40,10 +41,54 @@ class PostList(generics.ListCreateAPIView):
         # 필터가 적용된 쿼리셋을 리턴
         return qs
 
+# 요청자의 ip를 가져온다.
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 # post detail
 class PostDetailGenerics(generics.RetrieveUpdateDestroyAPIView):
     queryset = Posts.objects.annotate(likes= Count('like', distinct=True), views = Count('view', distinct=True)).all()
     serializer_class = PostsSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        flag = False
+                # 현재시간
+        now = datetime.now()
+        # 현재에서 1시간 전
+        yesterday = now - timedelta(hours=1)
+        # 1시간 사이의 조회자들을 가져온다.
+        postViews = PostsViews.objects.filter(checked_at__range = [yesterday, now], post=pk)
+        # 1시간 사이의 조회 데이터를 살피고 1시간 내에 조회한 기록이 있으면 조회수를 추가하지 않는다.
+        for item in postViews:
+            if item.user_ip == get_client_ip(self.request):
+                flag = True
+        # 1시간 사이의 조회 데이터를 살피고 조회한 기록이 없으면 조회수 추가
+        # 조회 데이터를 생성하기 위해 새로운 조회 객체 생성
+        postView = PostsViews()
+        # 객체의 post필드에 조회한 게시물 넣기
+        # posts/:pk/view url 경로를 통해 pk 가져오기
+        postView.post = get_object_or_404(Posts, pk = pk)
+        # 로그인한 유저라면 요청한 유저를 객체의 유저 필드에 넣는다.
+        if self.request.user.is_authenticated:
+            postView.user = self.request.user
+        # 로그인한 유저가 아니라면 객체의 유저 필드를 비워둔다.
+        else:
+            postView.user = None
+        # 요청자의 ip를 기록한다.
+        postView.user_ip = get_client_ip(self.request)
+        # 만든 객체를 저장한다.
+        if flag:
+            pass
+        else:
+            postView.save()
+
+        return super().get_queryset()
 
 # 좋아요
 class PostsLikesAPIView(APIView):

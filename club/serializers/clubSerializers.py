@@ -15,8 +15,8 @@ class ClubsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def current_user(self):
-        print(self.context.get('request'))
-        return self.context['request'].user
+        user = self.context.get('request').user
+        return user
     def get_user_like(self, instance):
         # 정보를 요청한 유저의 id를 가져온다.
         user =  self.current_user()

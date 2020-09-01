@@ -29,7 +29,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     # 모든 주소를 우선 client 쪽으로 연결시킴
-    path('', TemplateView.as_view(template_name='index.html'),name='index'),
+   #  path('', TemplateView.as_view(template_name='index.html'),name='index'),
+   url(r'^$', TemplateView.as_view(template_name='index.html'),name='index'),
     # swagger url
     path('admin/', admin.site.urls),
     # 소셜 로그인 관련 url
