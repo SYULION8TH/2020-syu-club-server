@@ -24,12 +24,6 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '0ei(amz(u0qw!oqk^n&cu^zctjgqp9j6_&8p-w!t%y&syn$o31'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -134,7 +128,7 @@ DATABASES = {
         'ENGINE' : 'django.db.backends.mysql',
         'HOST' : 'syulikelion-db.cmulcqbclq4u.ap-northeast-2.rds.amazonaws.com',
         'OPTIONS' : {
-            'read_default_file' : os.path.join(BASE_DIR, './secure/mysql.cnf'),
+            'read_default_file' : os.path.join(BASE_DIR, '../secure/mysql.cnf'),
             'init_command' : "SET sql_mode='STRICT_TRANS_TABLES'",
         }
     }
@@ -223,6 +217,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = '%s/media' % AWS_S3_CUSTOM_DOMAIN
+
 STATICFILES_DIRS = [
     # 실제 static 파일은 모두 client 측에서 소유 
     os.path.join(BASE_DIR, 'client/static'),    
@@ -239,3 +234,5 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+    app:
+        container_name: syu_clubs
+        build:
+            context: .
+        restart: on-failure
+        volumes:
+            - ./:/app/
+        environment: 
+            - TZ=Asia/Seoul
+        networks:
+            syu_clubs:
+                ipv4_address: 10.10.0.3
+
+networks:
+    syu_clubs:
+        driver: bridge
+        ipam:
+            config:
+              - subnet: 10.10.0.0/16
