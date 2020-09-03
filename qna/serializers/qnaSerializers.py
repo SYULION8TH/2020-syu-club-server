@@ -13,6 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
 class QnaSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     comments = serializers.IntegerField(read_only = True)
+    # qna_img_url = serializers.ImageField(upload_to="%Y/%m/%d", null=True)
     class Meta:
         model = ClubsQna
         fields = '__all__'

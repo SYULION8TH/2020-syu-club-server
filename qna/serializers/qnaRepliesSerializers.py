@@ -1,13 +1,20 @@
 from user.models import QnaReplies
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 class RecursiveSerializer(serializers.Serializer): #RecursiveSerializer
 	def to_representation(self, instance): #오버라이딩
 		serializer = self.parent_reply.parent_reply.__class__(instance, context = self.context) #self.__class__로 직렬화
 		return serializer.data
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
 class QnaRepliesSerializer(serializers.ModelSerializer):
-    reply = serializers.SerializerMethodField(read_only=True) 
+    reply = serializers.SerializerMethodField(read_only=True)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = QnaReplies
