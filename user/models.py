@@ -340,7 +340,7 @@ class SocialaccountSocialtoken(models.Model):
 
 
 class UsersAdditionalInfo(models.Model):
-    user_info = models.OneToOneField(User, models.DO_NOTHING, primary_key=True)
+    user_info = models.OneToOneField(User, models.DO_NOTHING, primary_key=True, related_name='add_info')
     profile = models.ImageField(upload_to="%Y/%m/%d", null=True)
     name = models.CharField(max_length = 45)
     created_at = models.DateTimeField(auto_now_add=True)

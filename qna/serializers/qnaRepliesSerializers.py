@@ -8,9 +8,10 @@ class RecursiveSerializer(serializers.Serializer): #RecursiveSerializer
 		return serializer.data
 
 class UserSerializer(serializers.ModelSerializer):
+    profile = serializers.CharField(source = 'add_info.profile', read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['id', 'username', 'profile']
 
 class QnaRepliesSerializer(serializers.ModelSerializer):
     reply = serializers.SerializerMethodField(read_only=True)
