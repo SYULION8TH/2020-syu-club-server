@@ -15,7 +15,7 @@ from secure import env
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -128,7 +128,7 @@ DATABASES = {
         'ENGINE' : 'django.db.backends.mysql',
         'HOST' : 'syulikelion-db.cmulcqbclq4u.ap-northeast-2.rds.amazonaws.com',
         'OPTIONS' : {
-            'read_default_file' : os.path.join(BASE_DIR, '../secure/mysql.cnf'),
+            'read_default_file' : os.path.join(BASE_DIR, './secure/mysql.cnf'),
             'init_command' : "SET sql_mode='STRICT_TRANS_TABLES'",
         }
     }
