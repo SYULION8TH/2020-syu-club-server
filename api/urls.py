@@ -28,7 +28,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    re_path('.*/', TemplateView.as_view(template_name='index.html'), name="home"),
+   #  re_path('.*/', TemplateView.as_view(template_name='index.html'), name="home"),
     # 모든 주소를 우선 client 쪽으로 연결시킴
     path('', TemplateView.as_view(template_name='index.html'),name='index'),
     path('post/', TemplateView.as_view(template_name='index.html'), name='post'),
