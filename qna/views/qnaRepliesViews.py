@@ -38,7 +38,6 @@ class QnaRepliesList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         pk = self.kwargs.get('pk')
         question = get_object_or_404(ClubsQna, pk=pk)
-        # serializer.save(user = self.request.user, question=question)
         serializer.save(user=self.request.user, question=question)
 
 
