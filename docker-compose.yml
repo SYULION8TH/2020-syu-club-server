@@ -6,8 +6,8 @@ services:
         build:
             context: .
         restart: on-failure
-        volumes:
-            - ./:/app/
+        # volumes:
+        #     - ./:/app/
         environment: 
             - TZ=Asia/Seoul
         networks:

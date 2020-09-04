@@ -3,11 +3,14 @@ version: '3'
 services:
     app:
         container_name: syu_clubs
-        build:
-            dockerfile: ./Dockerfile
+        image: hongpark/syu-clubs:latest
+        # build:
+        #     dockerfile: ./Dockerfile
         expose:
             # 이거랑
             - 8000
+        ports:
+            - "8080:8000"
         environment: 
             - DJANGO_SETTINGS_MODULE=api.settings.prod
         command:

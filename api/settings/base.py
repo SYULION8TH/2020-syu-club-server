@@ -235,4 +235,3 @@ SWAGGER_SETTINGS = {
     },
 }
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
