@@ -10,7 +10,7 @@ from user import views
 # drf_yasg를 위한 설정
 from django.conf import settings
 from rest_framework import routers, permissions
-from django.conf.urls import url
+# from django.conf.urls import url
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
@@ -28,6 +28,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+   #  re_path('.*/', TemplateView.as_view(template_name='index.html'), name="home"),
     # 모든 주소를 우선 client 쪽으로 연결시킴
     path('', TemplateView.as_view(template_name='index.html'),name='index'),
     path('post/', TemplateView.as_view(template_name='index.html'), name='post'),

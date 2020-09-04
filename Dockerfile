@@ -11,7 +11,7 @@ COPY . /app/
 
 ADD ./requirements.txt /app/
 
-VOLUME [ "./data" ]
+VOLUME [ "/data" ]
 
 RUN pip install -r requirements.txt
 
