@@ -37,7 +37,7 @@ class PostList(generics.ListCreateAPIView):
         pk = self.kwargs.get('pk')
         if pk == None:
             return qs
-        qs = qs.filter(pk=pk)
+        qs = qs.filter(club=pk)
         # 필터가 적용된 쿼리셋을 리턴
         return qs
 
