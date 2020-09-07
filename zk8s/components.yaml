@@ -87,8 +87,8 @@ spec:
         imagePullPolicy: Always
         args:
           - --kubelet-insecure-tls
-          - --cert-dir=/tmp
-          - --secure-port=4443
+          # - --cert-dir=/tmp
+          # - --secure-port=4443
         ports:
         - name: main-port
           containerPort: 4443
