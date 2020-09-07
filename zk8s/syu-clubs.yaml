@@ -6,10 +6,12 @@ metadata:
   labels:
     app: syu-svc
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
-  - port: 80
+  - protocol: TCP
+    port: 80
     targetPort: 80
+    nodePort: 30000
   selector:
     app: syu-clubs
 ---
@@ -36,6 +38,9 @@ spec:
       containers:
       - name: syu-clubs2
         image: hongpark/syu-clubs2:latest
+        resources:
+          requests:
+            cpu: '0.5'
         # ports:
         # - containerPort: 8000
         # env:
@@ -48,6 +53,9 @@ spec:
           mountPath: /app/static
       - name: nginx
         image: nginx:latest
+        resources:
+            requests:
+              cpu: '0.5'
         ports:
         - containerPort: 80
         volumeMounts:
@@ -55,3 +63,17 @@ spec:
           mountPath: /app/static
         - name: nginx-config
           mountPath: /etc/nginx/conf.d
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: syu-hpa
+  namespace: default
+spec:
+  maxReplicas: 10
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: syu-clubs
+  targetCPUUtilizationPercentage: 30
