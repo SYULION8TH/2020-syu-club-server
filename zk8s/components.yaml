@@ -63,7 +63,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: metrics-server
-  namespace: default
+  namespace: kube-system
   labels:
     k8s-app: metrics-server
 spec:
@@ -84,7 +84,7 @@ spec:
       containers:
       - name: metrics-server
         image: k8s.gcr.io/metrics-server/metrics-server:v0.3.7
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         args:
           - --kubelet-insecure-tls
           - --cert-dir=/tmp
