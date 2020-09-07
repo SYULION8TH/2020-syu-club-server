@@ -3,9 +3,9 @@ version: '3'
 services:
     app:
         container_name: syu_clubs
-        image: hongpark/syu-clubs:latest
-        # build:
-        #     dockerfile: ./Dockerfile
+        # image: hongpark/syu-clubs:latest
+        build:
+            dockerfile: ./Dockerfile
         expose:
             # 이거랑
             - 8000
@@ -17,7 +17,7 @@ services:
             - bash
             - -c
             - |
-                yes | python manage.py collectstatic
+                echo yes | python manage.py collectstatic
                 python manage.py migrate
                 gunicorn api.wsgi:application --bind=0.0.0.0:8000
 
