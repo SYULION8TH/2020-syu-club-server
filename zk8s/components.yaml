@@ -87,6 +87,7 @@ spec:
         imagePullPolicy: Always
         args:
           - --kubelet-insecure-tls
+          - --kubelet-preferred-address-types=InternalIP
           - --cert-dir=/tmp
           - --secure-port=4443
         ports:
