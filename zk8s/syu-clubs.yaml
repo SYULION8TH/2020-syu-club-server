@@ -21,6 +21,12 @@ metadata:
   name: syu-clubs
 spec:
   # replicas: 1
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
         app: syu-clubs
