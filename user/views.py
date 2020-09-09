@@ -16,7 +16,7 @@ class InfoGenerics(APIView):
         serializer = InfoSerializer(user)
         if user.is_superuser == True:
             return Response({"user": serializer.data}, status = status.HTTP_200_OK)
-        social_serializer = AdditionalInfoSerializer(user.usersadditionalinfo)
+        social_serializer = AdditionalInfoSerializer(user.add_info)
         return Response({
             "user": serializer.data,
             "user_profile": social_serializer.data
