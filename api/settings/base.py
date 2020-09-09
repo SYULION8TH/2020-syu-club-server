@@ -224,7 +224,7 @@ STATICFILES_DIRS = [
 ]
 
 # allauth 설정
-SITE_ID= 5
+SITE_ID= 1
 
 
 SWAGGER_SETTINGS = {
