@@ -43,7 +43,7 @@ spec:
           name: syuclub
       containers:
       - name: syu-clubs2
-        image: hongpark/syu-clubs2:1.1
+        image: hongpark/syu-clubs2:1.2.1
         imagePullPolicy: Always
         resources:
           requests:
