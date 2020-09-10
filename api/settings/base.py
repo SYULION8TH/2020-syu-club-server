@@ -234,4 +234,3 @@ SWAGGER_SETTINGS = {
         }
     },
 }
-

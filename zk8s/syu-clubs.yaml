@@ -6,7 +6,8 @@ metadata:
   labels:
     app: syu-svc
 spec:
-  type: NodePort
+  type: ExternalName
+  externalName: syu.example.com
   ports:
   - protocol: TCP
     port: 80
