@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 
 class QnaRepliesList(generics.ListCreateAPIView): 
     serializer_class = qnaRepliesSerializers.QnaRepliesSerializer
-    queryset = QnaReplies.objects.all()
+    queryset = QnaReplies.objects.filter(parent_reply=None)
     pk_url_kwarg = 'pk'
 
     def get_queryset(self):
