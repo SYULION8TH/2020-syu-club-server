@@ -116,8 +116,8 @@ class Clubs(models.Model):
     club_id = models.AutoField(primary_key=True)
     club_name = models.CharField(max_length=200, blank=True, null=True)
     club_desc = models.CharField(max_length=200, blank=True, null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-    club_type = models.ForeignKey(ClubTypes, models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
+    club_type = models.ForeignKey(ClubTypes, models.SET_NULL, null=True)
     club_img_url = models.ImageField(upload_to="%Y/%m/%d", null=True)
     club_logo_url = models.ImageField(upload_to="%Y/%m/%d", null=True)
     established = models.DateTimeField()
@@ -134,13 +134,13 @@ class Clubs(models.Model):
 
 class ClubsMember(models.Model):
     club_member_id = models.AutoField(primary_key=True)
-    club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
+    club = models.ForeignKey(Clubs, models.CASCADE, blank=True, null=True)
     club_member_name = models.CharField(max_length=200, blank=True, null=True)
     club_member_img_url = models.ImageField(upload_to="%Y/%m/%d", null=True)
     club_member_position = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
-        # managed = False
+        managed = False
         db_table = 'clubs_member'
 
 
@@ -148,8 +148,8 @@ class ClubsQna(models.Model):
     question_id = models.AutoField(primary_key=True)
     question_title = models.CharField(max_length=150, blank=True, null=True)
     question_content = models.CharField(max_length=3000, blank=True, null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-    club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.CASCADE, blank=True, null=True)
+    club = models.ForeignKey(Clubs, models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.IntegerField(default=0)
@@ -218,11 +218,11 @@ class Posts(models.Model):
     post_content = models.CharField(max_length=3000)
     post_introduce = models.CharField(max_length=200, blank=True, null=True)
     post_img_url = models.ImageField(upload_to="%Y/%m/%d", null=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.IntegerField(default=0)  # This field type is a guess.
-    club = models.ForeignKey(Clubs, models.DO_NOTHING, blank=True, null=True, related_name='club_posts')
+    club = models.ForeignKey(Clubs, models.CASCADE, blank=True, null=True, related_name='club_posts')
 
     def __str__(self):
         return self.post_title
@@ -234,9 +234,9 @@ class Posts(models.Model):
 
 class PostsReplies(models.Model):
     post_reply_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
-    post = models.ForeignKey(Posts, models.DO_NOTHING, blank=True, null=True)
-    parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True, related_name='reply')
+    user = models.ForeignKey(User, models.CASCADE, blank=True, null=True)
+    post = models.ForeignKey(Posts, models.CASCADE, blank=True, null=True)
+    parent_reply = models.ForeignKey('self', models.SET_NULL, blank=True, null=True, related_name='reply')
     post_reply_content = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -248,9 +248,9 @@ class PostsReplies(models.Model):
 
 
 class PostsViews(models.Model):
-    post = models.ForeignKey(Posts, models.DO_NOTHING, null=True, related_name = 'view')
+    post = models.ForeignKey(Posts, models.CASCADE, null=True, related_name = 'view')
     views_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
     user_ip = models.CharField(max_length=16)
     checked_at = models.DateTimeField(auto_now_add=True)
 
@@ -265,8 +265,8 @@ class PostsViews(models.Model):
 class QnaReplies(models.Model):
     qna_reply_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    question = models.ForeignKey(ClubsQna, models.DO_NOTHING, blank=True, null=True)
-    parent_reply = models.ForeignKey('self', models.DO_NOTHING, blank=True, null=True, related_name='reply')
+    question = models.ForeignKey(ClubsQna, models.CASCADE, blank=True, null=True)
+    parent_reply = models.ForeignKey('self', models.CASCADE, blank=True, null=True, related_name='reply')
     qna_reply_content = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -340,7 +340,7 @@ class SocialaccountSocialtoken(models.Model):
 
 
 class UsersAdditionalInfo(models.Model):
-    user_info = models.OneToOneField(User, models.DO_NOTHING, primary_key=True, related_name='add_info')
+    user_info = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='add_info')
     profile = models.ImageField(upload_to="%Y/%m/%d", null=True)
     name = models.CharField(max_length = 45)
     created_at = models.DateTimeField(auto_now_add=True)
