@@ -1,1 +1,1 @@
-export DJANGO_SETTINGS_MODULE=api.settings.dev
+export DJANGO_SETTINGS_MODULE=api.settings.dev && echo ${DJANGO_SETTINGS_MODULE}
