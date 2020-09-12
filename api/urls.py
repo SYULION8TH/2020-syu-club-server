@@ -32,14 +32,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # 소셜 로그인 관련 url
     path("accounts/" , include('allauth.urls')),
-    path("api/user/", views.InfoGenerics.as_view(), name="userInfo"),
+    path("api/user/", views.InfoGenerics.as_view()),
     # qna 관련 url
     path('api/', include('qna.urls')),
     #club 관련 url
     path('api/', include('club.urls')),
     # post 관련 url
     path('api/', include('board.urls')),
-    url(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html')),
+   #  url(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html')),
 ]
 
 # swagger url
