@@ -29,7 +29,6 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
-#  url(r'.*$', TemplateView.as_view(template_name='index.html'), name="home"),
     # 모든 주소를 우선 client 쪽으로 연결시킴
     path('', TemplateView.as_view(template_name='index.html'),name='index'),
     path('post/', TemplateView.as_view(template_name='index.html'), name='post'),
@@ -44,7 +43,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # 소셜 로그인 관련 url
     path("accounts/" , include('allauth.urls')),
-    path("api/user/", views.InfoGenerics.as_view()),
+    path("api/user", views.InfoGenerics.as_view()),
     # qna 관련 url
     path('api/', include('qna.urls')),
     #club 관련 url
@@ -53,13 +52,15 @@ urlpatterns = [
     path('api/', include('board.urls')),
    #  url(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html')),
 ]
+# if (settings.DEBUG):
+#    # swagger url
+#    urlpatterns += [
+#       path('swagger<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+#       path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+#       path('docs/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+#    ]
 
-# swagger url
-urlpatterns += [
-   path('swagger<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-   path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-   path('docs/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-]
+
 
 # urlpatterns +=[
 #    url(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html')),
