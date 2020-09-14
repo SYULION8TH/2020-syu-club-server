@@ -43,7 +43,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # 소셜 로그인 관련 url
     path("accounts/" , include('allauth.urls')),
-    path("api/user", views.InfoGenerics.as_view()),
+    path("api/user/", views.InfoGenerics.as_view()),
     # qna 관련 url
     path('api/', include('qna.urls')),
     #club 관련 url
