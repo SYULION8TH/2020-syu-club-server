@@ -221,6 +221,7 @@ MEDIA_ROOT = '%s/media' % AWS_S3_CUSTOM_DOMAIN
 STATICFILES_DIRS = [
     # 실제 static 파일은 모두 client 측에서 소유 
     os.path.join(BASE_DIR, 'client/static'),
+]
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
