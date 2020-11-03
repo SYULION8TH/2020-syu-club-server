@@ -58,8 +58,6 @@ spec:
         volumeMounts:
         - name: django-nginx
           mountPath: /app/static
-        - name: example-pv
-          mountPath: /app/static
       # - name: nginx
       #   image: nginx:latest
       #   resources:
