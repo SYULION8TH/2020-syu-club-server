@@ -37,7 +37,8 @@ spec:
     spec:
       volumes:
       - name: django-nginx
-        emptyDir: {}
+        persistentVolumeClaim:
+            claimName: example-pv-claim
       - name: nginx-config
         configMap:
           name: syuclub
