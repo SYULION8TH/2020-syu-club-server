@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: local-storage
   local:
-    path: /root/app/2020-syu-club-server/static
+    path: /var/static
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -19,4 +19,5 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - example-node
+          - minikube
+
