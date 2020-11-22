@@ -216,16 +216,13 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = '/static'
 MEDIA_ROOT = '%s/media' % AWS_S3_CUSTOM_DOMAIN
 
 STATICFILES_DIRS = [
     # 실제 static 파일은 모두 client 측에서 소유 
-    os.path.join(BASE_DIR, 'client/static'),    
+    os.path.join(BASE_DIR, 'client/static'),
 ]
-
-# allauth 설정
-SITE_ID= 1
-
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {

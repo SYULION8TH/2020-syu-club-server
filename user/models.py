@@ -290,6 +290,7 @@ class RelInterestClub(models.Model):
         db_table = 'rel_interest_club'
 
 
+
 class SocialaccountSocialaccount(models.Model):
     provider = models.CharField(max_length=30)
     uid = models.CharField(max_length=191)

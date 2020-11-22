@@ -1,4 +1,5 @@
-from user.models import PostsReplies
+from user.models import PostsReplies, UsersAdditionalInfo
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
 #to_representation을 오버라이딩 해서 화면에 출력
@@ -7,9 +8,15 @@ class RecursiveSerializer(serializers.Serializer):
 		serializer = self.parent_reply.parent_reply.__class__(instance, context = self.context)
 		return serializer.data
 
+class RepliesUser(serializers.ModelSerializer):
+    name = serializers.CharField(source='add_info.name')
+    profile = serializers.CharField(source='add_info.profile')
+    class Meta:
+        model = User
+        fields = ['id', 'name', 'profile']
 class PostsRepliesSerializer(serializers.ModelSerializer): 
     reply = serializers.SerializerMethodField(read_only= True)
-
+    user = RepliesUser(read_only=True)
     class Meta:
         model = PostsReplies
         fields = '__all__'
