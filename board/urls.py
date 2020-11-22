@@ -11,7 +11,7 @@ urlpatterns = [
     path('posts/<int:pk>/replies', post_replies_views.PostsRepliesList.as_view()),
     path('posts/view', post_view_views.PostsViewAPIView.as_view()),
     path('posts/famous', post_views.FamousPostsGenerics.as_view()),
-    path('posts/<int:pk>/likes',post_views.PostsLikesAPIView.as_view())
+    path('posts/<int:pk>/likes',post_views.PostsLikesAPIView.as_view())   #working
 
 ]
 

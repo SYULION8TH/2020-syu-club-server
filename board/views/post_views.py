@@ -112,6 +112,7 @@ class PostsLikesAPIView(APIView):
             post_like = PostsLike()
 	        #pk를 post_like.posts에 정의
             post_like.posts = post[0]
+            print(post_like.posts)
 	        # 요청받는 유저를 post_like.user에 정의
             post_like.user = request.user
             #좋아요가 이미 있을때 -> like.delete()

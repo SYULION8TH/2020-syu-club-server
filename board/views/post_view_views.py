@@ -10,7 +10,9 @@ from datetime import datetime, timedelta
 
 
 class PostsViewAPIView(APIView):
-    def get(self,request, pk):
+    def get(self,request):
+        postview = PostsViews.objects.all()
+        serializer = PostViewSerializer(postview, many=True)
 
         # 요청자의 ip를 보내준다.
-        return Response("changed", status = status.HTTP_200_OK)
+        return Response(serializer.data)
