@@ -234,3 +234,5 @@ SWAGGER_SETTINGS = {
         }
     },
 }
+
+SESSION_COOKIE_DOMAIN=".localhost"
